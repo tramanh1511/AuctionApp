@@ -23,10 +23,11 @@ export default function Signup() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [introduction, setIntro] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isRegisterLoading, setRegisterLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -42,7 +43,7 @@ export default function Signup() {
         email,
         phone,
         address,
-        intro,
+        introduction,
         password,
       })
       .then((result) => {
@@ -112,8 +113,19 @@ export default function Signup() {
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
+                          label="Adress"
+                          type="text"
+                          fullWidth
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          variant="outlined"
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
                           label="New Password"
-                          type="new-password"
+                          type="password"
                           fullWidth
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
@@ -126,19 +138,30 @@ export default function Signup() {
                           label="Retype password"
                           type="password"
                           fullWidth
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          variant="outlined"
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          label="intro"
+                          type="text"
+                          fullWidth
+                          value={introduction}
+                          onChange={(e) => setIntro(e.target.value)}
                           variant="outlined"
                           required
                         />
                       </Grid>
                     </Grid>
                     <Box sx={{ mt: 3 }}>
-                      <Button type="submit" variant="contained" color="primary" fullWidth disabled={isRegisterLoading}>
-                        {isRegisterLoading ? <CircularProgress size={24} color="inherit" /> : 'Đăng ký'}
+                      {error && <Alert severity="error">{error}</Alert>}
+                      <Button type="submit" variant="contained" color="primary" fullWidth onClick={handleSubmit}>
+                        Register now
                       </Button>
                     </Box>
-
                   </FormControl>
                 </form>
 
@@ -154,171 +177,6 @@ export default function Signup() {
           </Grid>
         </Grid>
       </Layout>
-      <CssBaseline>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#222831",
-          }}
-        >
-          <Paper
-            sx={{
-              width: "600px",
-              textAlign: "center",
-              padding: 2,
-              backgroundColor: "#faf6ed",
-            }}
-          >
-            <i
-              style={{
-                fontFamily: "arial",
-                fontWeight: "bold",
-                fontSize: "45px",
-                color: "#222831",
-              }}
-            >
-              Auction app
-            </i>
-            <Typography
-              variant="h5"
-              sx={{
-                mb: 3,
-                mt: 4,
-                fontWeight: "bold",
-                color: "#222831",
-                fontSize: "30px",
-              }}
-            >
-              Đăng ký
-            </Typography>
-            <form style={{ marginBottom: "12px" }} onSubmit={handleSubmit}>
-              <TextField
-                fullWidth
-                onChange={(e) => setEmail(e.target.value)}
-                label="Địa chỉ email"
-                sx={{
-                  mb: 3,
-                  ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#467061",
-                  },
-                  ".css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused":
-                  {
-                    color: "#F8F6E3",
-                  },
-                }}
-              ></TextField>
-              <TextField
-                fullWidth
-                onChange={(e) => setName(e.target.value)}
-                label="Tên người dùng"
-                sx={{
-                  mb: 3,
-                  ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#467061",
-                  },
-                  ".css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused":
-                  {
-                    color: "#F8F6E3",
-                  },
-                }}
-              ></TextField>
-              <TextField
-                fullWidth
-                onChange={(e) => setPhone(e.target.value)}
-                label="Số điện thoại"
-                sx={{
-                  mb: 3,
-                  ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#467061",
-                  },
-                  ".css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused":
-                  {
-                    color: "#F8F6E3",
-                  },
-                }}
-              ></TextField>
-              <TextField
-                fullWidth
-                onChange={(e) => setAddress(e.target.value)}
-                label="Địa chỉ thường trú"
-                sx={{
-                  mb: 3,
-                  ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                  {
-                    borderColor: "#467061",
-                  },
-                  ".css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused":
-                  {
-                    color: "#F8F6E3",
-                  },
-                }}
-              ></TextField>
-              <FormControl sx={{ mb: 3 }} variant="outlined" fullWidth>
-                <InputLabel htmlFor="outlined-adornment-password">
-                  Mật khẩu
-                </InputLabel>
-                <OutlinedInput
-                  onChange={(e) => setPassword(e.target.value)}
-                  id="outlined-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  endAdornment={
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  }
-                  label="Password"
-                />
-              </FormControl>
-              <FormControl sx={{ mb: 3 }} variant="outlined" fullWidth>
-                <InputLabel htmlFor="outlined-adornment-confirm-password">
-                  Xác nhận mật khẩu
-                </InputLabel>
-                <OutlinedInput
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  id="outlined-adornment-confirm-password"
-                  type="password"
-                  label="Confirm Password"
-                />
-              </FormControl>
-              {error && <Alert severity="error">{error}</Alert>}
-              <Button id="button" variant="contained" fullWidth type="submit">
-                Đăng ký
-              </Button>
-            </form>
-            <Stack
-              direction="row"
-              spacing={1}
-              sx={{
-                mb: 3,
-                mt: 3,
-                justifyContent: "center",
-                ml: -3,
-                alignItems: "center",
-              }}
-            >
-              <EastIcon sx={{ fontSize: "20px" }} />
-              <Typography>
-                <Link
-                  to="/login"
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  Đã có tài khoản? Đăng nhập ngay
-                </Link>
-              </Typography>
-            </Stack>
-          </Paper>
-        </Box>
-      </CssBaseline>
     </div>
   );
 }

@@ -11,16 +11,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from 'react-router-dom';
+import { useIsAuthenticated, useSignOut } from "react-auth-kit";
+
 
 function Header() {
   const userRole = localStorage.getItem('userRole');
   let pages = ['Trang chủ', 'Tạo đấu giá'];
-  let routes = ['/', '/auction-list', '/auction-room'];
-
-  if (userRole === 'ADMIN') {
-    pages = ['Trang chủ', 'Tạo đấu giá'];
-    routes = ['/', '/admin/auction-list', '/admin/add-auction'];
-  }
+  let routes = ['/', '/createAuction',];
 
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -29,6 +26,7 @@ function Header() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -45,6 +43,9 @@ function Header() {
     localStorage.clear();
     navigate('/');
   };
+
+  const isAuthenticated = useIsAuthenticated();
+  const auth = isAuthenticated();
 
   const userLoggedIn = localStorage.getItem('userId') !== null;
 
@@ -94,7 +95,6 @@ function Header() {
             </Menu>
           </Box>
 
-          {/* Large Screen Navigation Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page, index) => (
               <Button

@@ -52,8 +52,8 @@ async function createNewUser(user) {
     if (existedUser) {
         throw new Error(`The email ${existedUser.email} has already been used for other account`);
     }
-    const now = new Date().toLocaleString(); 
-    const newUserId = await getLatestUserId() + 1; 
+    const now = new Date().toLocaleString();
+    const newUserId = await getLatestUserId() + 1;
     const newUser = Object.assign(user, {
         userId: newUserId,
         name: user.name,

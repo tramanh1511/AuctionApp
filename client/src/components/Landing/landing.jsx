@@ -20,10 +20,8 @@ import "../../assets/Styles/Landing/Landing.css";
 import Divider from "@mui/material/Divider";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import LogoutIcon from "@mui/icons-material/Logout";
+import Layout from "../layout/Layout";
 
 function ScrollTop(props) {
   const { children, window } = props;
@@ -58,10 +56,7 @@ function ScrollTop(props) {
   );
 }
 
-ScrollTop.propTypes = {
-  children: PropTypes.element.isRequired,
-  window: PropTypes.func,
-};
+
 
 export default function BackToTop(props) {
   const match = useMediaQuery("(max-width:800px)");
@@ -93,21 +88,13 @@ export default function BackToTop(props) {
   const auth = isAuthenticated();
 
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar>
-        <Toolbar sx={{ background: "#222831" }}>
-          <Link to="/" style={{ textDecoration: "none", marginRight: "60px" }}>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ fontWeight: "bold", color: "#EEEEEE" }}
-            >
-              <i>Current Auction</i>
-            </Typography>
-          </Link>
+    <Layout>
+      <React.Fragment>
 
-          {auth ? (
+        {/* <AppBar>
+          <Toolbar sx={{ background: "#222831" }}>
+
+            (
             <div>
               <Button
                 id="button"
@@ -134,7 +121,7 @@ export default function BackToTop(props) {
                 </MenuItem>
               </Menu>
             </div>
-          ) : (
+            ) : (
             <Link to="/login">
               <Button
                 id="button"
@@ -147,171 +134,172 @@ export default function BackToTop(props) {
                 Đăng nhập
               </Button>
             </Link>
-          )}
-          <Link to="/createAuction">
-            <Button
-              id="button"
-              variant="contained"
-              sx={{
-                fontFamily: "Arial",
-                fontWeight: "bold",
-              }}
-            >
-              Create your own Auction
-            </Button>
-          </Link>
-        </Toolbar>
-      </AppBar>
-      <Toolbar id="back-to-top-anchor" />
-      <Box>
-        <Box
-          sx={{
-            backgroundImage: `url(${bgimg})`,
-            backgroundRepeat: "no-repeat",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "100vh",
-          }}
-        >
-          <div
-            style={{
-              textAlign: "center",
-              backgroundColor: "tranparent",
-              marginTop: "-25px",
+            )}
+            <Link to="/createAuction">
+              <Button
+                id="button"
+                variant="contained"
+                sx={{
+                  fontFamily: "Arial",
+                  fontWeight: "bold",
+                }}
+              >
+                Create your own Auction
+              </Button>
+            </Link>
+          </Toolbar>
+        </AppBar> */}
+
+        <Box>
+          <Box
+            sx={{
+              backgroundImage: `url(${bgimg})`,
+              backgroundRepeat: "no-repeat",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "100vh",
             }}
           >
-            <Typography
-              sx={{
-                fontSize: "100px",
-                color: "#f1f2ec",
-                padding: "0",
+            <div
+              style={{
+                textAlign: "center",
+                backgroundColor: "tranparent",
+                marginTop: "-25px",
               }}
             >
-              Auction
-            </Typography>
-            <i style={{ fontSize: "20px", padding: "0", color: "#f1f2ec" }}>
-              Hệ thống đấu giá trực tuyến
-            </i>
-          </div>
+              <Typography
+                sx={{
+                  fontSize: "100px",
+                  color: "#f1f2ec",
+                  padding: "0",
+                }}
+              >
+                Auction
+              </Typography>
+              <i style={{ fontSize: "20px", padding: "0", color: "#f1f2ec" }}>
+                Hệ thống đấu giá trực tuyến
+              </i>
+            </div>
+          </Box>
+          <Box
+            sx={{
+              minHeight: "30vh",
+              background: "#222831",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Paper
+              sx={{
+                width: "100%",
+                padding: 2,
+                background: "#222831",
+                mt: 1,
+                boxShadow: "none",
+              }}
+            >
+              <Typography
+                variant="h3"
+                sx={{
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: "#EEEEEE",
+                  mb: 4,
+                }}
+              >
+                Tìm kiếm đấu giá
+              </Typography>
+              <Stack sx={{ alignItems: "center" }}>
+                <FormHelperText sx={{ width: `${match ? "300px" : "570px"}` }}>
+                </FormHelperText>
+                <form onSubmit={handleSubmit}>
+                  <Stack
+                    spacing={1}
+                    direction="row"
+                    sx={{
+                      mb: 2,
+                      justifyContent: "center",
+                      width: `${match ? "300px" : "570px"}`,
+                    }}
+                  >
+                    <TextField
+                      required
+                      placeholder="Tìm kiếm"
+                      onChange={(e) => {
+                        setPkgId(e.target.value);
+                      }}
+                      value={pkgId}
+                      sx={{
+                        width: "100%",
+                        ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "#222831",
+                        },
+                      }}
+                    >
+                      {" "}
+                    </TextField>
+                    <Button
+                      id="button"
+                      type="submit"
+                      variant="contained"
+                      sx={{
+                        margin: 0,
+                        width: 130,
+                      }}
+                    >
+                      Tìm kiếm
+                    </Button>
+                  </Stack>
+                </form>
+              </Stack>
+              <Stack>
+                Show các đấu giá ở đây
+              </Stack>
+            </Paper>
+          </Box>
         </Box>
         <Box
           sx={{
-            minHeight: "30vh",
+            minHeight: "15vh",
             background: "#222831",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <Paper
+          <Stack
+            direction="row"
             sx={{
-              width: "100%",
-              padding: 2,
-              background: "#222831",
-              mt: 1,
-              boxShadow: "none",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Typography
-              variant="h3"
+            <FormHelperText sx={{ color: "white", ml: 5 }}>
+              Copyright ©2024
+            </FormHelperText>
+            <Divider
+              orientation="vertical"
               sx={{
-                textAlign: "center",
-                fontWeight: "bold",
-                color: "#EEEEEE",
-                mb: 4,
+                height: "10vh",
+                borderColor: "white",
+                mr: `${match ? "80px" : "220px"}`,
+                ml: `${match ? "80px" : "220px"}`,
               }}
-            >
-              Tìm kiếm đấu giá
-            </Typography>
-            <Stack sx={{ alignItems: "center" }}>
-              <FormHelperText sx={{ width: `${match ? "300px" : "570px"}` }}>
-              </FormHelperText>
-              <form onSubmit={handleSubmit}>
-                <Stack
-                  spacing={1}
-                  direction="row"
-                  sx={{
-                    mb: 2,
-                    justifyContent: "center",
-                    width: `${match ? "300px" : "570px"}`,
-                  }}
-                >
-                  <TextField
-                    required
-                    placeholder="Tìm kiếm"
-                    onChange={(e) => {
-                      setPkgId(e.target.value);
-                    }}
-                    value={pkgId}
-                    sx={{
-                      width: "100%",
-                      ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                      {
-                        borderColor: "#222831",
-                      },
-                    }}
-                  >
-                    {" "}
-                  </TextField>
-                  <Button
-                    id="button"
-                    type="submit"
-                    variant="contained"
-                    sx={{
-                      margin: 0,
-                      width: 130,
-                    }}
-                  >
-                    Tìm kiếm
-                  </Button>
-                </Stack>
-              </form>
-            </Stack>
-            <Stack>
-              Show các đấu giá ở đây
-            </Stack>
-          </Paper>
+            />
+            <FormHelperText sx={{ color: "white", mr: 5 }}>
+              Designed by RamseyTrinh
+            </FormHelperText>
+          </Stack>
         </Box>
-      </Box>
-      <Box
-        sx={{
-          minHeight: "15vh",
-          background: "#222831",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Stack
-          direction="row"
-          sx={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <FormHelperText sx={{ color: "white", ml: 5 }}>
-            Copyright ©2024
-          </FormHelperText>
-          <Divider
-            orientation="vertical"
-            sx={{
-              height: "10vh",
-              borderColor: "white",
-              mr: `${match ? "80px" : "220px"}`,
-              ml: `${match ? "80px" : "220px"}`,
-            }}
-          />
-          <FormHelperText sx={{ color: "white", mr: 5 }}>
-            Designed by RamseyTrinh
-          </FormHelperText>
-        </Stack>
-      </Box>
-      <ScrollTop {...props}>
-        <Fab size="small" aria-label="scroll back to top">
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
-    </React.Fragment>
+        <ScrollTop {...props}>
+          <Fab size="small" aria-label="scroll back to top">
+            <KeyboardArrowUpIcon />
+          </Fab>
+        </ScrollTop>
+      </React.Fragment>
+    </Layout>
   );
 }

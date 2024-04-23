@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   Button, TextField, Typography, Grid, Card, Box,
+  Alert,
 } from '@mui/material';
 import React, { Component } from 'react'
 import Layout from '../layout/Layout';
@@ -11,6 +12,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const userEmail = localStorage.getItem('userEmail');
@@ -21,10 +23,13 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      setError("Please enter email and password");
+      return;
+    }
     axios
       .post("http://localhost:3000/api/v1/login", { email, password })
       .then((result) => {
-        // console.log(result);
         if (result.status === 200) {
           if (
             signIn({
@@ -43,7 +48,9 @@ function Login() {
       })
       .catch((err) => {
         setError(err.response.data.message);
-        console.log(err.response.data.message);
+        // console.log(err.response.data.message);
+        console.log("nguiu")
+        console.log(err);
       });
   };
 
@@ -80,16 +87,17 @@ function Login() {
                   </Grid>
                 </Grid>
                 <Box sx={{ mt: 3 }}>
+                  {error && <Alert severity="error">{error}</Alert>}
                   <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
-                    Đăng nhập
+                    Sign in
                   </Button>
                 </Box>
               </form>
               <Box sx={{ mt: 3 }}>
                 <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                  Chưa có tài khoản?
+                  Do not already have an account
                   {' '}
-                  <RouterLink to="/signup">Đăng ký</RouterLink>
+                  <RouterLink to="/signup">Register</RouterLink>
                 </Typography>
               </Box>
             </Box>
