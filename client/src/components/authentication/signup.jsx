@@ -21,9 +21,7 @@ import {
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [citizenId, setCitizenId] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -40,11 +38,11 @@ export default function Signup() {
     }
     axios
       .post("http://localhost:3000/api/v1/users/signup", {
-        email,
         name,
-        citizenId,
-        phoneNumber,
+        email,
+        phone,
         address,
+        intro,
         password,
       })
       .then((result) => {
@@ -72,7 +70,7 @@ export default function Signup() {
           <Grid item xs={12} sm={8} md={6} lg={4}>
             <Card sx={{ padding: 4 }}>
               <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', fontWeight: '500' }}>
-                Đăng ký
+                Register
               </Typography>
               <Box sx={{ mt: 3 }}>
                 <form onSubmit={handleSubmit}>
@@ -81,7 +79,7 @@ export default function Signup() {
                     <Grid container spacing={2}>
                       <Grid item xs={12}>
                         <TextField
-                          label="Họ tên"
+                          label="Full Name"
                           type="text"
                           fullWidth
                           value={name}
@@ -92,19 +90,8 @@ export default function Signup() {
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
-                          label="Số CMND"
-                          type="text"
-                          fullWidth
-                          value={citizenId}
-                          onChange={(e) => setCitizenId(e.target.value)}
-                          variant="outlined"
-                          required
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
                           label="Email"
-                          type="email"
+                          type="Email"
                           fullWidth
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
@@ -114,8 +101,19 @@ export default function Signup() {
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
-                          label="Mật khẩu"
-                          type="password"
+                          label="Phone Number"
+                          type="text"
+                          fullWidth
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          variant="outlined"
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          label="New Password"
+                          type="new-password"
                           fullWidth
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
@@ -125,11 +123,11 @@ export default function Signup() {
                       </Grid>
                       <Grid item xs={12}>
                         <TextField
-                          label="Số điện thoại"
-                          type="text"
+                          label="Retype password"
+                          type="password"
                           fullWidth
-                          value={phoneNumber}
-                          onChange={(e) => setPhone(e.target.value)}
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                           variant="outlined"
                           required
                         />
@@ -146,9 +144,9 @@ export default function Signup() {
 
                 <Box sx={{ mt: 3 }}>
                   <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                    Đã có tài khoản?
+                    Already have account?
                     {' '}
-                    <Link to="/login">Đăng nhập</Link>
+                    <Link to="/login">Sign in</Link>
                   </Typography>
                 </Box>
               </Box>
@@ -230,7 +228,7 @@ export default function Signup() {
               ></TextField>
               <TextField
                 fullWidth
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                onChange={(e) => setPhone(e.target.value)}
                 label="Số điện thoại"
                 sx={{
                   mb: 3,

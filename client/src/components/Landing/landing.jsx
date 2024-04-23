@@ -148,6 +148,18 @@ export default function BackToTop(props) {
               </Button>
             </Link>
           )}
+          <Link to="/createAuction">
+            <Button
+              id="button"
+              variant="contained"
+              sx={{
+                fontFamily: "Arial",
+                fontWeight: "bold",
+              }}
+            >
+              Create your own Auction
+            </Button>
+          </Link>
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor" />

@@ -5,7 +5,7 @@ function Footer() {
   return (
     <Box mt="5rem">
       <Box sx={{ padding: '3rem', textAlign: 'center' }}>
-        © Group 10 OOAD - 2024
+        © Ramseytrinh - 2024
       </Box>
     </Box>
 

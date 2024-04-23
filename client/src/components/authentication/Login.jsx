@@ -22,7 +22,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3000/api/v1/users/login", { email, password })
+      .post("http://localhost:3000/api/v1/login", { email, password })
       .then((result) => {
         // console.log(result);
         if (result.status === 200) {

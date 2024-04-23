@@ -11,15 +11,14 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { Link, useNavigate } from 'react-router-dom';
-import vpaLogo from '../../assets/images/vpa-logo.svg';
 
 function Header() {
   const userRole = localStorage.getItem('userRole');
-  let pages = ['Trang chủ', 'Danh sách biển số', 'Phòng đấu giá'];
+  let pages = ['Trang chủ', 'Tạo đấu giá'];
   let routes = ['/', '/auction-list', '/auction-room'];
 
   if (userRole === 'ADMIN') {
-    pages = ['Trang chủ', 'Danh sách biển số', 'Tạo đấu giá'];
+    pages = ['Trang chủ', 'Tạo đấu giá'];
     routes = ['/', '/admin/auction-list', '/admin/add-auction'];
   }
 
@@ -53,23 +52,6 @@ function Header() {
     <AppBar position="static" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-
-          {/* Large Screen Logo */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, marginRight: '8px' }}>
-            <Link to="/">
-              <img
-                src={vpaLogo}
-                alt="Logo"
-                style={{
-                  width: 'auto',
-                  height: '40px',
-                  maxWidth: '100%',
-                }}
-              />
-            </Link>
-          </Box>
-
-          {/* Small Screen Navigation Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -110,21 +92,6 @@ function Header() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
-
-          {/* Small Screen Logo */}
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, flexGrow: 1, justifyContent: 'center' }}>
-            <Link to="/">
-              <img
-                src={vpaLogo}
-                alt="Logo"
-                style={{
-                  width: 'auto',
-                  height: '40px',
-                  maxWidth: '100%',
-                }}
-              />
-            </Link>
           </Box>
 
           {/* Large Screen Navigation Menu */}
