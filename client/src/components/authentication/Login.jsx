@@ -7,12 +7,14 @@ import {
 import React, { Component } from 'react'
 import Layout from '../layout/Layout';
 import axios from 'axios';
+import { useSignIn } from "react-auth-kit";
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const signIn = useSignIn();
 
   useEffect(() => {
     const userEmail = localStorage.getItem('userEmail');
@@ -41,15 +43,14 @@ function Login() {
               },
             })
           ) {
-            navigate("/menu");
+            navigate("/");
           }
           setError("");
         }
       })
       .catch((err) => {
         setError(err.response.data.message);
-        // console.log(err.response.data.message);
-        console.log("nguiu")
+        console.log(err.response.data.message);
         console.log(err);
       });
   };

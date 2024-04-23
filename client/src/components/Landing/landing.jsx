@@ -22,6 +22,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Layout from "../layout/Layout";
+import AuctionList from "../auction/auctionList";
 
 function ScrollTop(props) {
   const { children, window } = props;
@@ -90,66 +91,6 @@ export default function BackToTop(props) {
   return (
     <Layout>
       <React.Fragment>
-
-        {/* <AppBar>
-          <Toolbar sx={{ background: "#222831" }}>
-
-            (
-            <div>
-              <Button
-                id="button"
-                variant="contained"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}
-              >
-                <AccountCircleIcon />
-              </Button>
-              <Menu
-                id="landingMenu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-              >
-                <MenuItem onClick={handleLogout}>
-                  Đăng xuất
-                  <LogoutIcon sx={{ ml: 1 }} />
-                </MenuItem>
-              </Menu>
-            </div>
-            ) : (
-            <Link to="/login">
-              <Button
-                id="button"
-                variant="contained"
-                sx={{
-                  fontFamily: "Arial",
-                  fontWeight: "bold",
-                }}
-              >
-                Đăng nhập
-              </Button>
-            </Link>
-            )}
-            <Link to="/createAuction">
-              <Button
-                id="button"
-                variant="contained"
-                sx={{
-                  fontFamily: "Arial",
-                  fontWeight: "bold",
-                }}
-              >
-                Create your own Auction
-              </Button>
-            </Link>
-          </Toolbar>
-        </AppBar> */}
-
         <Box>
           <Box
             sx={{
@@ -257,42 +198,10 @@ export default function BackToTop(props) {
               </Stack>
               <Stack>
                 Show các đấu giá ở đây
+                <AuctionList></AuctionList>
               </Stack>
             </Paper>
           </Box>
-        </Box>
-        <Box
-          sx={{
-            minHeight: "15vh",
-            background: "#222831",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Stack
-            direction="row"
-            sx={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <FormHelperText sx={{ color: "white", ml: 5 }}>
-              Copyright ©2024
-            </FormHelperText>
-            <Divider
-              orientation="vertical"
-              sx={{
-                height: "10vh",
-                borderColor: "white",
-                mr: `${match ? "80px" : "220px"}`,
-                ml: `${match ? "80px" : "220px"}`,
-              }}
-            />
-            <FormHelperText sx={{ color: "white", mr: 5 }}>
-              Designed by RamseyTrinh
-            </FormHelperText>
-          </Stack>
         </Box>
         <ScrollTop {...props}>
           <Fab size="small" aria-label="scroll back to top">

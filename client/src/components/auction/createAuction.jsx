@@ -10,11 +10,12 @@ export default function createAuction() {
     const [description, setDescription] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [initPrice, setInitPrice] = useState("");
+    const [endTime, setEndTime] = useState("");
     const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.post("http://localhost:3000/api/auction/", { category, title, description, imageUrl, initPrice })
+        axios.post("http://localhost:3000/api/v1/auctions", { category, title, description, imageUrl, initPrice, endTime })
             .then((result) => {
                 if (result.status === 201) {
                     window.alert("create success");
@@ -84,6 +85,19 @@ export default function createAuction() {
                                             value={imageUrl}
                                             onChange={(e) => setImageUrl(e.target.value)}
                                             variant="outlined"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            label="End Time"
+                                            type="datetime-local"
+                                            fullWidth
+                                            value={endTime}
+                                            onChange={(e) => setEndTime(e.target.value)}
+                                            variant="outlined"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
                                         />
                                     </Grid>
                                 </Grid>

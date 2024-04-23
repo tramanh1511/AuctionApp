@@ -6,13 +6,13 @@ const {
     httpApproveAuctionById,
     httpDeleteAuctionById,
 } = require('./auctions.controller');
-const { validateUser } = require('../../middlewares/authentication');
-const { extractAuthorization } = require('../../middlewares/authorization');
+// const { validateUser } = require('../../middlewares/authentication');
+// const { extractAuthorization } = require('../../middlewares/authorization');
 
 const auctionsRouter = express.Router();
 
-auctionsRouter.use(validateUser);
-auctionsRouter.use(extractAuthorization);
+// auctionsRouter.use(validateUser);
+// auctionsRouter.use(extractAuthorization);
 
 auctionsRouter.get('/', httpGetAllAuctions);
 auctionsRouter.get('/:id', httpGetAuctionById);

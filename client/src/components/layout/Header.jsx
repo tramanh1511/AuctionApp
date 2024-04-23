@@ -16,8 +16,12 @@ import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 
 function Header() {
   const userRole = localStorage.getItem('userRole');
-  let pages = ['Trang chủ', 'Tạo đấu giá'];
+  let pages = ['Home', 'Create auction'];
   let routes = ['/', '/createAuction',];
+  if (userRole === 'ADMIN') {
+    pages = ['Home', 'Approve auction ', 'Example'];
+    routes = ['/', '/admin/auction-list', '/admin/add-auction'];
+  }
 
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -138,7 +142,7 @@ function Header() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {userRole === 'CUSTOMER'
+                  {userRole === ''
                     && (
                       <MenuItem
                         key={0}
@@ -146,7 +150,7 @@ function Header() {
                         component={Link}
                         to="/profile"
                       >
-                        <Typography textAlign="center">Hồ sơ</Typography>
+                        <Typography textAlign="center">Profile</Typography>
                       </MenuItem>
                     )}
 
@@ -154,7 +158,7 @@ function Header() {
                     key={1}
                     onClick={handleLogout}
                   >
-                    <Typography textAlign="center">Đăng xuất</Typography>
+                    <Typography textAlign="center">Logout</Typography>
                   </MenuItem>
                 </Menu>
               </>
@@ -163,7 +167,7 @@ function Header() {
                 onClick={() => navigate('/login')}
                 sx={{ my: 2, color: 'inherit', display: 'block' }}
               >
-                Đăng nhập
+                Login
               </Button>
             )}
           </Box>

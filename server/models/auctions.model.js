@@ -110,6 +110,19 @@ async function approveAuction(auctionId) {
         return false; // Xử lý lỗi hoặc trả về false nếu có lỗi xảy ra
     }
 }
+async function calculateHoursRemaining(endTime) {
+    const currentTime = new Date();
+    const end = new Date(endTime);
+    const totalMilliseconds = end - currentTime;
+
+    if (totalMilliseconds <= 0) {
+        return 'Đấu giá đã kết thúc';
+    }
+
+    const totalHours = Math.floor(totalMilliseconds / (1000 * 60 * 60));
+
+    return totalHours;
+}
 
 
 module.exports = {
@@ -120,4 +133,5 @@ module.exports = {
     createNewAuction,
     deleteAuctionById,
     approveAuction,
+    calculateHoursRemaining
 }
