@@ -1,4 +1,4 @@
-const { 
+const {
     getAllUsers,
     getUserById,
     createNewUser,
@@ -7,19 +7,18 @@ const {
 } = require('../../models/users.model');
 
 async function httpGetAllUsers(req, res) {
-    // to use query instead later
     const query = req.body;
     const requestingUser = await getUserById(req.uid);
 
-    // Filter users list based on the requesting user's role and work location
-    const users = await getAllUsers(requestingUser.role, requestingUser.location);
-    
-    return res.status(200).json(users);
+    const users = await getAllUsers();
+    const userCount = users.length; // Get the count of users
+    console.log(userCount)
+    return res.status(200).json({ userCount, users });
 }
 
 async function httpGetUserById(req, res) {
     const userId = Number(req.params.id);
-    
+
     const user = await getUserById(userId);
     if (!user) {
         return res.status(404).json({
@@ -48,7 +47,7 @@ async function httpEditUser(req, res) {
 
     try {
         const modifiedUser = await editUser(user);
-        return res.status(200).json(modifiedUser); 
+        return res.status(200).json(modifiedUser);
     } catch (err) {
         return res.status(400).json({
             error: err.message,

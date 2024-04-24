@@ -3,7 +3,7 @@ const { getHashedPassword } = require('../services/bcrypt');
 
 const DEFAULT_USER_ID = 0;
 
-async function getAllUsers(role, location) {
+async function getAllUsers() {
     return await User
         .find({ isAdmin: false });
 };

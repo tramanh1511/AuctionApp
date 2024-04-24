@@ -16,8 +16,8 @@ import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 
 function Header() {
   const userRole = localStorage.getItem('userRole');
-  let pages = ['Home', 'Create auction'];
-  let routes = ['/', '/createAuction',];
+  let pages = ['Home', 'Create auction', 'Profile'];
+  let routes = ['/', '/createAuction', '/users/profile'];
   if (userRole === 'ADMIN') {
     pages = ['Home', 'Approve auction ', 'Example'];
     routes = ['/', '/admin/auction-list', '/admin/add-auction'];
