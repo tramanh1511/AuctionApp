@@ -19,9 +19,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/createAuction" element={<CreateAuction />} />
-          <Route path="/user/profile" element={<Profile />} />
-          <Route path="/auctions/:auctionId" component={<AuctionDetail />} />
-
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/:auctionId" component={<AuctionDetail />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

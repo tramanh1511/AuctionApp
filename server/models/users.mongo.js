@@ -24,11 +24,12 @@ const usersSchema = new mongoose.Schema({
     },
     intro: {
         type: String,
-        required: true,
     },
-    isAdmin: {
-        type: Boolean,
+    role: {
+        type: String,
         required: true,
+        default: 'user', // Set default value to 'user'
+        enum: ['admin', 'user']
     },
     createdAt: {
         type: String,

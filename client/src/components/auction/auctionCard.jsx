@@ -8,7 +8,7 @@ function AuctionCard({ auction }) {
     const currentTime = new Date();
     // const duration = new Date(Timeend) - currentTime;
     return (
-        <Link to={`/auctions/${auctionId}`}>
+        <Link to={`/${auctionId}`}>
             <Card
                 sx={{
                     display: 'flex',

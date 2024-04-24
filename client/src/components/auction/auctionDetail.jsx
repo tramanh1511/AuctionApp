@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Layout from '../layout/Layout';
 
 function AuctionDetail() {
     const { auctionId } = useParams();
@@ -24,14 +25,14 @@ function AuctionDetail() {
     }
 
     return (
-        <div>
+        <Layout>
             <h2>Auction Detail</h2>
             <p>Title: {auction.title}</p>
             <p>Description: {auction.description}</p>
             <p>Init Price: {auction.initPrice}</p>
             <p>Status: {auction.status}</p>
             {/* Add more details as needed */}
-        </div>
+        </Layout>
     );
 }
 

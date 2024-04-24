@@ -10,28 +10,29 @@ async function httpLogin(req, res) {
     const user = await getUserByEmail(login.email);
     if (!user) {
         return res.status(400).json({
-            error: "Invalid user"
+            error: "Invalid email/password"
         })
     }
     bcrypt.compare(login.password, user.password)
-    .then(async valid => {
-        if (valid) {
-            return res.status(200).json({
-                uid: user.userId,
-                token: createAccessToken(user.userId),
-            });
-        } else {
-            return res.status(400).json({
-                error: "Invalid user"
-            })
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        return res.status(500).json({
-            error: "Couldn't validate user"
+        .then(async valid => {
+            if (valid) {
+                return res.status(200).json({
+                    uid: user.userId,
+                    token: createAccessToken(user.userId),
+                    userRole: user.role,
+                });
+            } else {
+                return res.status(400).json({
+                    message: "Invalid email/password!"
+                })
+            }
         })
-    });
+        .catch(err => {
+            console.log(err);
+            return res.status(500).json({
+                error: "Couldn't validate user"
+            })
+        });
 }
 
 module.exports = {

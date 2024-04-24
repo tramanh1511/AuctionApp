@@ -11,10 +11,13 @@ function Profile() {
     });
 
     useEffect(() => {
-        fetchUserData();
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            fetchUserData(userId);
+        }
     }, []);
 
-    const fetchUserData = async () => {
+    const fetchUserData = async (userId) => {
         try {
             const response = await fetch(`http://localhost:3000/api/v1/users/${userId}`);
             if (!response.ok) {
@@ -39,6 +42,7 @@ function Profile() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const userId = localStorage.getItem('userId');
             const response = await fetch(`http://localhost:3000/api/v1/users/${userId}`, {
                 method: 'PATCH',
                 headers: {

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = "minhquang-khoinguyen-dothai"
+const JWT_SECRET = "ramseytrinh"
 
 function createAccessToken(userId) {
     const accessToken = jwt.sign({
@@ -16,8 +16,8 @@ function verifyAccessToken(token) {
 
         if (decoded.iss === "magic-post-access") {
             return true
-        } 
-    } catch (err) {} 
+        }
+    } catch (err) { }
     return false;
 }
 

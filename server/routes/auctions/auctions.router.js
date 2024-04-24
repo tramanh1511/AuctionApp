@@ -6,8 +6,8 @@ const {
     httpApproveAuctionById,
     httpDeleteAuctionById,
 } = require('./auctions.controller');
-// const { validateUser } = require('../../middlewares/authentication');
-// const { extractAuthorization } = require('../../middlewares/authorization');
+const { validateUser } = require('../../middlewares/authentication');
+const { extractAuthorization } = require('../../middlewares/authorization');
 
 const auctionsRouter = express.Router();
 

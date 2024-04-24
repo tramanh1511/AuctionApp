@@ -15,10 +15,10 @@ import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 
 
 function Header() {
-  const userRole = localStorage.getItem('userRole');
-  let pages = ['Home', 'Create auction', 'Profile'];
-  let routes = ['/', '/createAuction', '/users/profile'];
-  if (userRole === 'ADMIN') {
+  const userRole = localStorage.getItem('role');
+  let pages = ['Home', 'Create auction',];
+  let routes = ['/', '/createAuction',];
+  if (userRole === 'admin') {
     pages = ['Home', 'Approve auction ', 'Example'];
     routes = ['/', '/admin/auction-list', '/admin/add-auction'];
   }
@@ -51,7 +51,7 @@ function Header() {
   const isAuthenticated = useIsAuthenticated();
   const auth = isAuthenticated();
 
-  const userLoggedIn = localStorage.getItem('userId') !== null;
+  const userLoggedIn = localStorage.getItem('uid') !== null;
 
   return (
     <AppBar position="static" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
@@ -142,7 +142,7 @@ function Header() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {userRole === ''
+                  {userRole !== ''
                     && (
                       <MenuItem
                         key={0}

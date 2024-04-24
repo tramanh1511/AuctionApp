@@ -60,7 +60,7 @@ async function createNewUser(user) {
         email: user.email,
         phone: user.phone,
         intro: user.introduction,
-        isAdmin: false,
+        role: user.role,
         createdAt: now,
         password: await getHashedPassword(user.password),
     })

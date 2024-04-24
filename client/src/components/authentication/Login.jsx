@@ -6,22 +6,12 @@ import {
 } from '@mui/material';
 import React, { Component } from 'react'
 import Layout from '../layout/Layout';
-import axios from 'axios';
-import { useSignIn } from "react-auth-kit";
-
+import { Navigate } from 'react-router-dom';
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const signIn = useSignIn();
-
-  useEffect(() => {
-    const userEmail = localStorage.getItem('userEmail');
-    if (userEmail) {
-      navigate('/');
-    }
-  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,31 +19,40 @@ function Login() {
       setError("Please enter email and password");
       return;
     }
-    axios
-      .post("http://localhost:3000/api/v1/login", { email, password })
-      .then((result) => {
-        if (result.status === 200) {
-          if (
-            signIn({
-              token: result.data.token,
-              expiresIn: 480,
-              tokenType: "Bearer",
-              authState: {
-                data: result.data.user,
-              },
-            })
-          ) {
-            navigate("/");
-          }
-          setError("");
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    };
+    fetch("http://localhost:3000/api/v1/login", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          setError("Invalid email or password");
+          throw Error("Invalid credentials")
         }
+        const token = data.token
+        console.log(data)
+        localStorage.setItem("jwtToken", token);
+        localStorage.setItem("uid", data.uid);
+        localStorage.setItem("role", data.userRole);
+
+        navigate('/');
       })
-      .catch((err) => {
-        setError(err.response.data.message);
-        console.log(err.response.data.message);
-        console.log(err);
+      .catch(error => {
+        console.error(error);
       });
+  }
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    alert("Logged out & Token removed");
   };
+
+
 
   return (
     <Layout>
