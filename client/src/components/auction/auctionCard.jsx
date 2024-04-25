@@ -4,7 +4,7 @@ import CountdownTimer from './countDownTime';
 import { Link } from 'react-router-dom';
 
 function AuctionCard({ auction }) {
-    const { auctionId, imageUrl, title, status, initPrice, endTime } = auction;
+    const { auctionId, imageUrl, title, status, initPrice, startTime, endTime } = auction;
     let color;
     switch (status) {
         case 'processing':
@@ -35,10 +35,8 @@ function AuctionCard({ auction }) {
                 <CardContent>
                     <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
                         <img src={imageUrl} alt='Auction' style={{ width: '100%', height: 'auto' }} />
-                        {/* <Typography variant="body1">{title}</Typography> */}
-                        {/* <Typography variant="body1">{status}</Typography> */}
                     </Box>
-                    <Typography variant="body1" sx={{ marginTop: '0.5rem' }} size="sm">
+                    <Typography variant="body1" sx={{ marginTop: '0.5rem', fontSize: '1.5rem', fontWeight: 'bold' }}>
                         {title}
                     </Typography>
                     <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
@@ -47,7 +45,12 @@ function AuctionCard({ auction }) {
                     <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
                         Giá khởi điểm: {initPrice}$
                     </Typography>
-                    <CountdownTimer startTime={currentTime.toISOString()} />
+                    <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
+                        Start at: {startTime}
+                    </Typography>
+                    <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
+                        End at: {endTime}
+                    </Typography>
                 </CardContent>
 
                 <CardActions>
@@ -59,7 +62,7 @@ function AuctionCard({ auction }) {
                     </Button>
                 </CardActions>
             </Card>
-        </Link>
+        </Link >
     );
 }
 

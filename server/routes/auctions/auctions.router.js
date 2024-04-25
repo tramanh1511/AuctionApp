@@ -1,7 +1,9 @@
 const express = require('express');
 const {
-    httpGetAllAuctions,
+    httpGetAllAuctionFalse,
+    httpGetAllAuctionTrue,
     httpGetAuctionById,
+    httpGetAuctionByUserId,
     httpAddNewAuction,
     httpApproveAuctionById,
     httpDeleteAuctionById,
@@ -14,8 +16,10 @@ const auctionsRouter = express.Router();
 // auctionsRouter.use(validateUser);
 // auctionsRouter.use(extractAuthorization);
 
-auctionsRouter.get('/', httpGetAllAuctions);
+auctionsRouter.get('/', httpGetAllAuctionTrue);
+auctionsRouter.get('/auctionFalse', httpGetAllAuctionFalse);
 auctionsRouter.get('/:id', httpGetAuctionById);
+auctionsRouter.get('/yourAuction/:id', httpGetAuctionByUserId)
 auctionsRouter.post('/', httpAddNewAuction);
 auctionsRouter.patch('/:id', httpApproveAuctionById);
 auctionsRouter.delete('/:id', httpDeleteAuctionById);

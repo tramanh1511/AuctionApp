@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Layout from "../layout/Layout";
 import React from "react";
-import { Button, TextField, Typography, Grid, Card, Box, } from '@mui/material';
+import { Button, TextField, Typography, Grid, Card, Box, Alert } from '@mui/material';
 import axios from "axios";
 
 export default function createAuction() {
@@ -12,15 +12,36 @@ export default function createAuction() {
     const [description, setDescription] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [initPrice, setInitPrice] = useState("");
+    const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [error, setError] = useState("");
 
+    const isValidUrl = (url) => {
+        try {
+            new URL(url);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.post("http://localhost:3000/api/v1/auctions", { userId, category, title, description, imageUrl, initPrice, endTime })
+
+        if (!category || !title || !description || !initPrice || !startTime || !endTime) {
+            setError("Please fill in all required fields.");
+            return;
+        }
+
+        if (imageUrl && !isValidUrl(imageUrl)) {
+            setError("Please enter a valid URL for the image.");
+            return;
+        }
+        axios.post("http://localhost:3000/api/v1/auctions", { userId, category, title, description, imageUrl, initPrice, startTime, endTime })
             .then((result) => {
                 if (result.status === 201) {
-                    window.alert("create success");
+                    window.alert("Create Success");
+                    window.location.reload();
                 }
             })
             .catch((e) => {
@@ -90,6 +111,19 @@ export default function createAuction() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
+                                        label="Start time"
+                                        type="datetime-local"
+                                        fullWidth
+                                        value={startTime}
+                                        onChange={(e) => setStartTime(e.target.value)}
+                                        variant="outlined"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
                                         label="End Time"
                                         type="datetime-local"
                                         fullWidth
@@ -99,10 +133,13 @@ export default function createAuction() {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+
                                     />
                                 </Grid>
                             </Grid>
                             <Box sx={{ mt: 3 }}>
+                                {error && <Alert severity="error">{error}</Alert>}
+
                                 <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>
                                     Create
                                 </Button>

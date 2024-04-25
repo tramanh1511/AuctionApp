@@ -1,22 +1,25 @@
 const {
-    getAllAuctions,
     getAuctionById,
     approveAuctionById,
+    getAuctionByUserId,
     createNewAuction,
     deleteAuctionById,
+    getAllAuctionsFalse,
+    getAllAuctionsTrue,
 } = require('../../models/auctions.model');
 
 const {
     getUserById
 } = require('../../models/users.model');
 
-async function httpGetAllAuctions(req, res) {
-    const userId = req.uid;
-    const title = req.query.title;
+async function httpGetAllAuctionFalse(req, res) {
+    const auctions = await getAllAuctionsFalse();
+    return res.status(200).json(auctions)
+}
 
-    const auctions = await getAllAuctions(title, userId);
-    
-    return res.status(200).json(auctions);
+async function httpGetAllAuctionTrue(req, res) {
+    const auctions = await getAllAuctionsTrue();
+    return res.status(200).json(auctions)
 }
 
 async function httpGetAuctionById(req, res) {
@@ -34,15 +37,24 @@ async function httpGetAuctionById(req, res) {
     return res.status(200).json(auction);
 }
 
-async function httpApproveAuctionById(req, res) {
-    const auctionId = req.params.id;
-
-    const requestingUser = await getUserById(req.uid);
-    if (!requestingUser.isAdmin) {
-        return res.status(401).json({
-            error: "Permission required"
+async function httpGetAuctionByUserId(req, res) {
+    const userId = req.params.id
+    console.log('ngu')
+    console.log(userId);
+    const auction = await getAuctionByUserId(userId);
+    if (!auction) {
+        return res.status(404).json({
+            error: 'Auction not found',
         });
     }
+
+    console.log(auction);
+
+    return res.status(200).json(auction);
+}
+
+async function httpApproveAuctionById(req, res) {
+    const auctionId = req.params.id;
 
     const auction = await approveAuctionById(auctionId);
 
@@ -57,7 +69,7 @@ async function httpApproveAuctionById(req, res) {
 
 async function httpAddNewAuction(req, res) {
     const auction = req.body;
- 
+
     try {
         const createdAuction = await createNewAuction(auction)
     } catch (err) {
@@ -71,27 +83,25 @@ async function httpAddNewAuction(req, res) {
 }
 
 async function httpDeleteAuctionById(req, res) {
-    const userId = req.uid;
     const auctionId = req.params.id;
 
-    const requestingUser = await getUserById(userId);
     const deletingAuction = await getAuctionById(auctionId);
 
-    if (requestingUser.isAdmin || requestingUser.userId == deletingAuction.userId) {
+    if (deletingAuction) {
         const auction = await deleteAuctionById(auctionId);
         return res.status(200).json(auction);
     } else {
-        console.log(requestingUser.userId);
-        console.log(deletingAuction.userId);
         return res.status(400).json({
-            error: "Unauthorized user"
+            error: "Backend bảo không xóa được!"
         })
     }
 }
 
 module.exports = {
-    httpGetAllAuctions,
+    httpGetAllAuctionFalse,
+    httpGetAllAuctionTrue,
     httpGetAuctionById,
+    httpGetAuctionByUserId,
     httpAddNewAuction,
     httpApproveAuctionById,
     httpDeleteAuctionById,

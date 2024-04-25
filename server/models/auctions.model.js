@@ -7,47 +7,21 @@ const {
     getUserById
 } = require('./users.model');
 
-async function getAllAuctions(title, userId) {
-    if (title) {
-        const regex = new RegExp(title, 'i');
-        return await Auction
-            .find({ title: regex })
-    } else if (userId) {
-        const user = await getUserById(userId);
-        if (user.isAdmin) {
-            return await Auction
-                .find({ approved: false });
-        }
-        return await Auction
-            .find({ userId: userId })
-    } else {
-        return await Auction
-            .find()
-    }
+async function getAllAuctionsTrue() {
+    return await Auction.find({ approved: true });
 };
 
-async function getAllAuctionsTrue(title, userId) {
-    if (title) {
-        const regex = new RegExp(title, 'i');
-        return await Auction
-            .find({ title: regex })
-    } else if (userId) {
-        const user = await getUserById(userId);
-        if (user.isAdmin) {
-            return await Auction
-                .find({ approved: true });
-        }
-        return await Auction
-            .find({ userId: userId })
-    } else {
-        return await Auction
-            .find()
-    }
+async function getAllAuctionsFalse() {
+    return await Auction.find({ approved: false });
 };
 
 async function getAuctionById(auctionId) {
     return await Auction
         .findOne({ auctionId: auctionId })
+}
+
+async function getAuctionByUserId(userId) {
+    return await Auction.find({ userId: userId })
 }
 
 async function approveAuctionById(auctionId) {
@@ -58,7 +32,7 @@ async function approveAuctionById(auctionId) {
     const now = new Date().toLocaleString();
     auction.approved = true;
     auction.lastUpdated = now;
-    auction.status = "Đang đấu giá"
+    auction.status = "processing"
     auction.save();
     return auction;
 }
@@ -69,6 +43,8 @@ async function saveAuction(auction) {
 
 async function createNewAuction(auction) {
     const now = new Date().toLocaleString();
+    const startTime = auction.startTime.toLocaleString();
+    const endTime = auction.endTime.toLocaleString();
 
     const newAuction = Object.assign(auction, {
         auctionId: generateUuid(),
@@ -81,9 +57,11 @@ async function createNewAuction(auction) {
         approved: false,
         lastUpdated: now,
         status: "waiting",
+        startTime: startTime,
+        endTime: endTime
     })
     await saveAuction(newAuction);
-
+    console.log(newAuction)
     return newAuction;
 }
 
@@ -91,25 +69,7 @@ async function deleteAuctionById(auctionId) {
     const auction = Auction.findOneAndDelete({ auctionId: auctionId });
     return auction;
 }
-async function approveAuction(auctionId) {
-    try {
-        const auction = await Auction.findById(auctionId);
-        if (!auction) {
-            console.log("Auction not found.");
-            return false;
-        }
 
-        // Cập nhật trường approved thành true
-        auction.approved = true;
-        await auction.save(); // Lưu thay đổi
-
-        console.log("Auction approved successfully.");
-        return true; // Hoặc bạn có thể trả về một giá trị hoặc thông báo khác nếu cần
-    } catch (error) {
-        console.error("Error approving auction:", error);
-        return false; // Xử lý lỗi hoặc trả về false nếu có lỗi xảy ra
-    }
-}
 async function calculateHoursRemaining(endTime) {
     const currentTime = new Date();
     const end = new Date(endTime);
@@ -126,12 +86,12 @@ async function calculateHoursRemaining(endTime) {
 
 
 module.exports = {
+    getAllAuctionsFalse,
     getAllAuctionsTrue,
-    getAllAuctions,
     getAuctionById,
     approveAuctionById,
+    getAuctionByUserId,
     createNewAuction,
     deleteAuctionById,
-    approveAuction,
     calculateHoursRemaining
 }

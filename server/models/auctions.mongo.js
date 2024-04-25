@@ -42,8 +42,14 @@ const auctionsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    timeLeft: {
-        type: Number,
+    startTime: {
+        type: String,
+        required: true,
+    },
+    endTime: {
+        type: String,
+        required: true,
+
     }
 });
 

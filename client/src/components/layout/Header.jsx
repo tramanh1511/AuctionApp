@@ -20,11 +20,11 @@ function Header() {
   let routes = ['/', '/createAuction',];
   if (userRole === 'admin') {
     pages = ['Home', 'Approve auction ', 'Example'];
-    routes = ['/', '/admin/auction-list', '/admin/add-auction'];
+    routes = ['/', '/approveAuction', '/'];
   }
   if (userRole === 'user') {
-    pages = ['Home', 'Create auction ', 'Example'];
-    routes = ['/', '/createAuction', '/admin/add-auction'];
+    pages = ['Home', 'Create your auction ', 'Your auction', 'Your Bid'];
+    routes = ['/', '/createAuction', '/yourAuction'];
   }
 
   const navigate = useNavigate();

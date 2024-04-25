@@ -71,7 +71,7 @@ function Profile() {
 
     return (
         <div>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '1rem', marginBottom: '1rem', marginTop: '10px', textAlign: 'center' }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '1rem', marginTop: '10px', textAlign: 'center' }}>
                 User Profile
             </Typography>
             <Card sx={{ padding: '2rem', width: '500px', margin: 'auto', position: "relative" }}>

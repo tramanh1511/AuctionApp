@@ -149,7 +149,7 @@ export default function BackToTop(props) {
                 mb: 4,
               }}
             >
-              Tìm kiếm đấu giá
+              Search Auction
             </Typography>
             <Stack sx={{ alignItems: "center" }}>
               <FormHelperText sx={{ width: `${match ? "300px" : "570px"}` }}>
@@ -166,7 +166,7 @@ export default function BackToTop(props) {
                 >
                   <TextField
                     required
-                    placeholder="Tìm kiếm"
+                    placeholder="Searching..."
                     onChange={(e) => {
                       setPkgId(e.target.value);
                     }}
@@ -190,13 +190,12 @@ export default function BackToTop(props) {
                       width: 130,
                     }}
                   >
-                    Tìm kiếm
+                    Search
                   </Button>
                 </Stack>
               </form>
             </Stack>
             <Stack>
-              Show các đấu giá ở đây
               <AuctionList></AuctionList>
             </Stack>
           </Paper>
