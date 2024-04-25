@@ -4,12 +4,12 @@ import Header from './Header';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
 
-function Layout({ children }) {
+function Layout() {
   return (
     <>
       <Header />
       <Container maxWidth="xl">
-        {children}
+        <Outlet />
         <Footer />
       </Container>
     </>

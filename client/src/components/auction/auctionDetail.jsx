@@ -1,6 +1,6 @@
+import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Layout from '../layout/Layout';
 
 function AuctionDetail() {
     const { auctionId } = useParams();
@@ -25,14 +25,15 @@ function AuctionDetail() {
     }
 
     return (
-        <Layout>
+        <>
             <h2>Auction Detail</h2>
             <p>Title: {auction.title}</p>
+            <Box component="img" width="90%" src={auction.imageUrl} />
             <p>Description: {auction.description}</p>
             <p>Init Price: {auction.initPrice}</p>
             <p>Status: {auction.status}</p>
             {/* Add more details as needed */}
-        </Layout>
+        </>
     );
 }
 

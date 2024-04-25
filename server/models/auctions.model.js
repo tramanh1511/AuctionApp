@@ -80,7 +80,7 @@ async function createNewAuction(auction) {
         initPrice: auction.initPrice,
         approved: false,
         lastUpdated: now,
-        status: "Đang chờ phê duyệt",
+        status: "waiting",
     })
     await saveAuction(newAuction);
 

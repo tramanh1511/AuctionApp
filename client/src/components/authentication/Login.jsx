@@ -55,56 +55,54 @@ function Login() {
 
 
   return (
-    <Layout>
-      <Grid container justifyContent="center" alignItems="center" sx={{ height: '100%', marginTop: '5rem' }}>
-        <Grid item xs={12} sm={8} md={6} lg={4}>
-          <Card sx={{ padding: 4 }}>
-            <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', fontWeight: '500' }}>
-              Đăng nhập
-            </Typography>
-            <Box sx={{ mt: 3 }}>
-              <form>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      label="Email"
-                      type="email"
-                      fullWidth
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      label="Mật khẩu"
-                      type="password"
-                      fullWidth
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      variant="outlined"
-                    />
-                  </Grid>
+    <Grid container justifyContent="center" alignItems="center" sx={{ height: '100%', marginTop: '5rem' }}>
+      <Grid item xs={12} sm={8} md={6} lg={4}>
+        <Card sx={{ padding: 4 }}>
+          <Typography variant="h5" gutterBottom sx={{ textAlign: 'center', fontWeight: '500' }}>
+            Đăng nhập
+          </Typography>
+          <Box sx={{ mt: 3 }}>
+            <form>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Email"
+                    type="email"
+                    fullWidth
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    variant="outlined"
+                  />
                 </Grid>
-                <Box sx={{ mt: 3 }}>
-                  {error && <Alert severity="error">{error}</Alert>}
-                  <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
-                    Sign in
-                  </Button>
-                </Box>
-              </form>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Mật khẩu"
+                    type="password"
+                    fullWidth
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    variant="outlined"
+                  />
+                </Grid>
+              </Grid>
               <Box sx={{ mt: 3 }}>
-                <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                  Do not already have an account
-                  {' '}
-                  <RouterLink to="/signup">Register</RouterLink>
-                </Typography>
+                {error && <Alert severity="error">{error}</Alert>}
+                <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
+                  Sign in
+                </Button>
               </Box>
+            </form>
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                Do not already have an account
+                {' '}
+                <RouterLink to="/signup">Register</RouterLink>
+              </Typography>
             </Box>
-          </Card>
-        </Grid>
+          </Box>
+        </Card>
       </Grid>
-    </Layout>
+    </Grid>
   );
 }
 

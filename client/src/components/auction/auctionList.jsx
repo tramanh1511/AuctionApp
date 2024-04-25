@@ -20,9 +20,9 @@ function AuctionList() {
     }, []);
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={4}>
             {auctionList?.map((auction) => (
-                <Grid item xs={12} md={2} key={auction.auctionId}> {/* Sử dụng id của mỗi phiên đấu giá làm key */}
+                <Grid item xs={12} md={3} key={auction.auctionId}> {/* Sử dụng id của mỗi phiên đấu giá làm key */}
                     <AuctionCard auction={auction} />
                 </Grid>
             ))}

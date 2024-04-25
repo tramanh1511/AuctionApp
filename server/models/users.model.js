@@ -38,7 +38,7 @@ async function editUser(user) {
     oldUser.name = user.name;
     oldUser.email = user.email;
     oldUser.phone = user.phone;
-    oldUser.intro = user.introduction;
+    oldUser.intro = user.intro;
     oldUser.save();
     return oldUser;
 }

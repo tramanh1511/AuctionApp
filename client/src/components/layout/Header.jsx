@@ -16,11 +16,15 @@ import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 
 function Header() {
   const userRole = localStorage.getItem('role');
-  let pages = ['Home', 'Create auction',];
+  let pages = ['Home',];
   let routes = ['/', '/createAuction',];
   if (userRole === 'admin') {
     pages = ['Home', 'Approve auction ', 'Example'];
     routes = ['/', '/admin/auction-list', '/admin/add-auction'];
+  }
+  if (userRole === 'user') {
+    pages = ['Home', 'Create auction ', 'Example'];
+    routes = ['/', '/createAuction', '/admin/add-auction'];
   }
 
   const navigate = useNavigate();
