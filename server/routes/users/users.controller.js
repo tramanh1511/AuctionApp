@@ -7,13 +7,8 @@ const {
 } = require('../../models/users.model');
 
 async function httpGetAllUsers(req, res) {
-    const query = req.body;
-    const requestingUser = await getUserById(req.uid);
-
     const users = await getAllUsers();
-    const userCount = users.length; // Get the count of users
-    console.log(userCount)
-    return res.status(200).json({ userCount, users });
+    return res.status(200).json(users);
 }
 
 async function httpGetUserById(req, res) {

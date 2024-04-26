@@ -5,8 +5,6 @@ import {
   Alert,
 } from '@mui/material';
 import React, { Component } from 'react'
-import Layout from '../layout/Layout';
-import { Navigate } from 'react-router-dom';
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');

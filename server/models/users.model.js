@@ -4,13 +4,11 @@ const { getHashedPassword } = require('../services/bcrypt');
 const DEFAULT_USER_ID = 0;
 
 async function getAllUsers() {
-    return await User
-        .find({ isAdmin: false });
+    return await User.find({ role: 'user' });
 };
 
 async function getUserById(userId) {
-    return await User
-        .findOne({ userId: userId })
+    return await User.findOne({ userId: userId })
 }
 
 async function getUserByEmail(email) {
@@ -68,6 +66,7 @@ async function createNewUser(user) {
 }
 
 async function deleteUserById(userId) {
+    return await User.deleteOne({ userId: userId });
 
 }
 

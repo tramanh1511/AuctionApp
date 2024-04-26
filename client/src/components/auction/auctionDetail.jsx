@@ -44,6 +44,10 @@ function AuctionDetail() {
             }
         }
     }
+    const handleBidding = () => {
+        window.location.href = '/bidding';
+    };
+
     if (!auction) {
         return <div>Loading...</div>;
     }
@@ -62,7 +66,18 @@ function AuctionDetail() {
                         onClick={handleDelete}>
                         Delete this auction
                     </Button>
-                )}
+                ) || (<Button sx={{
+                    position: 'absolute',
+                    right: '18px',
+                    color: 'blue'
+                }}
+                    aria-label="go-to-bidding-page"
+                    onClick={handleBidding}
+                >
+                    Bidding this Auction
+                </Button>
+                    )}
+
                 <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '1rem', marginTop: '10px', textAlign: 'center' }}>
                     Auction Detail
                 </Typography>
@@ -85,7 +100,7 @@ function AuctionDetail() {
                 <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
                     End at: {auction.endTime}
                 </Typography>
-            </Card>
+            </Card >
         </>
     );
 }

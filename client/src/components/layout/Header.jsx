@@ -19,8 +19,8 @@ function Header() {
   let pages = ['Home',];
   let routes = ['/', '/createAuction',];
   if (userRole === 'admin') {
-    pages = ['Home', 'Approve auction ', 'Example'];
-    routes = ['/', '/approveAuction', '/'];
+    pages = ['Home', 'Approve auction ', 'List Users'];
+    routes = ['/', '/approveAuction', '/listUser'];
   }
   if (userRole === 'user') {
     pages = ['Home', 'Create your auction ', 'Your auction', 'Your Bid'];

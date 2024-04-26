@@ -48,6 +48,7 @@ export default function Signup() {
       })
       .then((result) => {
         if (result.status === 201) {
+          window.alert("Sign up successfully!")
           navigate("/login");
         }
         setError("");
@@ -57,11 +58,6 @@ export default function Signup() {
       });
   };
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
 
   return (
