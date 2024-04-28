@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, } from 'react-router-dom';
 import { Box, Typography, Card, Button } from '@mui/material';
 
 function AuctionDetail() {
@@ -44,9 +44,11 @@ function AuctionDetail() {
             }
         }
     }
+
     const handleBidding = () => {
-        window.location.href = '/bidding';
-    };
+        navigate(`/biddingPage/${auctionId}`)
+    }
+
 
     if (!auction) {
         return <div>Loading...</div>;
@@ -66,16 +68,19 @@ function AuctionDetail() {
                         onClick={handleDelete}>
                         Delete this auction
                     </Button>
-                ) || (<Button sx={{
-                    position: 'absolute',
-                    right: '18px',
-                    color: 'blue'
-                }}
-                    aria-label="go-to-bidding-page"
-                    onClick={handleBidding}
-                >
-                    Bidding this Auction
-                </Button>
+                ) || (
+                        <div>
+
+                            <Button variant='contained' sx={{
+                                position: 'absolute',
+                                right: '18px',
+                            }}
+                                aria-label="go-to-bidding-page"
+                                onClick={handleBidding}
+                            >
+                                Bidding this Auction
+                            </Button>
+                        </div>
                     )}
 
                 <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '1rem', marginTop: '10px', textAlign: 'center' }}>
@@ -100,7 +105,7 @@ function AuctionDetail() {
                 <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
                     End at: {auction.endTime}
                 </Typography>
-            </Card >
+            </Card>
         </>
     );
 }

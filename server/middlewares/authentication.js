@@ -3,7 +3,6 @@ const { verifyAccessToken } = require('../services/jwt');
 function validateUser(req, res, next) {
     try {
         console.log(req.headers);
-        console.log('nguu');
         const accessToken = req.headers.authorization;
         if (verifyAccessToken(accessToken)) {
             next()

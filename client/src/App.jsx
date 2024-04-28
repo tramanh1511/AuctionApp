@@ -30,7 +30,7 @@ function App() {
             <Route path="yourAuction" element={<YourAuction />} />
             <Route path="approveAuction" element={<ApproveAuction />} />
             <Route path="listUser" element={<ListUser />} />
-            <Route path="bidding" element={<Bidding />} />
+            <Route path="biddingPage/:auctionId" element={<Bidding />} />
 
 
           </Route>

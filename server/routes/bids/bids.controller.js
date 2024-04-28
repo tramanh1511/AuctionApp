@@ -8,8 +8,8 @@ const {
     getUserById,
 } = require('../../models/users.model');
 
-async function httpGetAllBids(req, res) {
-    const userId = req.params.id;
+async function httpGetAllBidsOfUser(req, res) {
+    const userId = req.params.userId;
 
     const bids = await getBidsByUserId(userId);
 
@@ -22,7 +22,7 @@ async function httpGetAllBids(req, res) {
 }
 
 async function httpGetHighestBid(req, res) {
-    const auctionId = req.query.auctionId;
+    const auctionId = req.params.id;
 
     const bids = await getBidsByAuctionId(auctionId);
 
@@ -59,7 +59,7 @@ async function httpAddNewBid(req, res) {
             error: "Your bid must be higher than the current bid"
         })
     }
- 
+
     try {
         const createdBid = await createNewBid(bid)
     } catch (err) {
@@ -73,7 +73,7 @@ async function httpAddNewBid(req, res) {
 }
 
 module.exports = {
-    httpGetAllBids,
+    httpGetAllBidsOfUser,
     httpAddNewBid,
     httpGetHighestBid,
 }
