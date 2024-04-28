@@ -2,10 +2,6 @@
 
 Clone the project
 
-```bash
-   git clone https://github.com/Laveyron/MagicPost.git
-```
-
 ## Start client
 
 Navigate to the project directory
