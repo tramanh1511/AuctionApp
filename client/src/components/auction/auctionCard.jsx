@@ -5,23 +5,23 @@ import { Link } from 'react-router-dom';
 
 function AuctionCard({ auction }) {
     const { auctionId, imageUrl, title, status, initPrice, startTime, endTime } = auction;
-    let color;
+    let colorStatus;
     switch (status) {
         case 'processing':
-            color = 'green';
+            colorStatus = 'green';
             break;
         case 'ended':
-            color = 'red';
+            colorStatus = 'red';
             break;
         case 'waiting':
-            color = 'yellow';
+            colorStatus = 'yellow';
             break;
         default:
     }
     const currentTime = new Date();
     // const duration = new Date(Timeend) - currentTime;
     return (
-        <Link to={`/${auctionId}`}>
+        <Link to={`/${auctionId}`} style={{ color: '#0f1a2a' }}>
             <Card
                 sx={{
                     display: 'flex',
@@ -40,10 +40,10 @@ function AuctionCard({ auction }) {
                         {title}
                     </Typography>
                     <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                        Trạng thái: <span style={{ color: color }}>{status}</span>
+                        Status: <span style={{ color: colorStatus }}>{status}</span>
                     </Typography>
                     <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                        Giá khởi điểm: {initPrice}$
+                        Init Price: {initPrice}$
                     </Typography>
                     <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
                         Start at: {startTime}
@@ -52,17 +52,16 @@ function AuctionCard({ auction }) {
                         End at: {endTime}
                     </Typography>
                 </CardContent>
-
                 <CardActions>
                     <Button
                         size="large"
                         variant="contained"
                     >
-                        Bấm để chọn
+                        Press to enter
                     </Button>
                 </CardActions>
             </Card>
-        </Link >
+        </Link>
     );
 }
 

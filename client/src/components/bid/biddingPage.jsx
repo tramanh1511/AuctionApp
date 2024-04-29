@@ -80,7 +80,7 @@ function Bidding() {
 
                 <Grid item xs={12} sm={6}>
                     <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h5" sx={{ fontWeight: 'bold', marginTop: '30%', marginBottom: '10px' }}>
+                        <Typography variant="h5" sx={{ fontWeight: 'bold', marginTop: '28%', marginBottom: '10px' }}>
                             Start Price: {auction && auction.initPrice} $
                         </Typography>
                         <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>
@@ -96,7 +96,7 @@ function Bidding() {
                         <FormHelperText sx={{ color: 'red', textAlign: 'center', marginBottom: '10px' }}>
 
                         </FormHelperText>
-                        {error && <Alert severity="error">{error}</Alert>}
+                        {error && <Alert severity="error" style={{ maxWidth: '380px', margin: 'auto', marginBottom: '10px' }}>{error}</Alert>}
 
                         <Button onClick={handleBidding} variant='contained'>Place Bid</Button>
                     </Box>

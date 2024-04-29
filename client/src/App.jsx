@@ -11,6 +11,7 @@ import YourAuction from "./components/auction/yourAuction";
 import ApproveAuction from "./components/auction/approveAuction";
 import ListUser from "./components/authentication/listUser";
 import Bidding from "./components/bid/biddingPage";
+import YourBid from "./components/bid/yourBid";
 
 import { AuthProvider } from "react-auth-kit";
 import Layout from "./components/layout/Layout";
@@ -31,7 +32,7 @@ function App() {
             <Route path="approveAuction" element={<ApproveAuction />} />
             <Route path="listUser" element={<ListUser />} />
             <Route path="biddingPage/:auctionId" element={<Bidding />} />
-
+            <Route path="yourBid" element={<YourBid />} />
 
           </Route>
         </Routes>

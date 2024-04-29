@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import AuctionCard from './auctionCard';
-import {
-    Avatar, Box, Typography, Card, IconButton, TextField, Button
-} from '@mui/material';
+import { Typography } from '@mui/material';
 
 function AuctionList() {
     const userId = localStorage.getItem('uid')

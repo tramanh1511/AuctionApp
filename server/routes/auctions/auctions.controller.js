@@ -39,7 +39,6 @@ async function httpGetAuctionById(req, res) {
 
 async function httpGetAuctionByUserId(req, res) {
     const userId = req.params.id
-    console.log('ngu')
     console.log(userId);
     const auction = await getAuctionByUserId(userId);
     if (!auction) {

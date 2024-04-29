@@ -24,7 +24,7 @@ function Header() {
   }
   if (userRole === 'user') {
     pages = ['Home', 'Create your auction ', 'Your auction', 'Your Bid'];
-    routes = ['/', '/createAuction', '/yourAuction'];
+    routes = ['/', '/createAuction', '/yourAuction', '/yourBid'];
   }
 
   const navigate = useNavigate();

@@ -92,7 +92,7 @@ function Login() {
             </form>
             <Box sx={{ mt: 3 }}>
               <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                Do not already have an account
+                Do not already have an account?
                 {' '}
                 <RouterLink to="/signup">Register</RouterLink>
               </Typography>
