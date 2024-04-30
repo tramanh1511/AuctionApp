@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Typography, List, ListItem, ListItemText } from '@mui/material';
+import { Link } from 'react-router-dom';
+
 
 function YourBid() {
     const userId = localStorage.getItem('uid');
@@ -33,11 +35,19 @@ function YourBid() {
                     <List>
                         {yourBids?.map((bid, index) => (
                             <ListItem key={bid.bidId}>
-                                <ListItemText
-                                    primary={`Bid ${index + 1}`}
-                                    secondary={`Amount: ${bid.price}`}
-                                />
+                                <Link to={`/${bid.auctionId}`} style={{ textDecoration: 'none', color: 'inherit' }} >
+                                    <ListItemText
+                                        primary={`Number ${index + 1}`}
+                                        secondary={
+                                            <Typography>
+                                                AuctionId: {bid.auctionId}
+                                                <br />
+                                                Price: {bid.price}
+                                            </Typography>}
+                                    />
+                                </Link>
                             </ListItem>
+
                         ))}
                     </List>
                 </Grid>

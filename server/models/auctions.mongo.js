@@ -49,8 +49,8 @@ const auctionsSchema = new mongoose.Schema({
     endTime: {
         type: String,
         required: true,
-
     }
+
 });
 
 module.exports = mongoose.model('Auction', auctionsSchema);

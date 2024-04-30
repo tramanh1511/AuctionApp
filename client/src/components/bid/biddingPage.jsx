@@ -30,6 +30,7 @@ function Bidding() {
                 });
 
                 window.alert("Bid successfully!")
+                window.location.reload();
             }
         } catch (error) {
             console.error('Bidding error:', error);
@@ -84,7 +85,7 @@ function Bidding() {
                             Start Price: {auction && auction.initPrice} $
                         </Typography>
                         <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>
-                            Highest Price: {highestPrice ? highestPrice : "NULL"} $
+                            Highest Price: {highestPrice ? highestPrice : (auction && auction.initPrice)} $
                         </Typography>
                         <TextField
                             id="outlined-basic"

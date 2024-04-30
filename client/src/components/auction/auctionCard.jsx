@@ -51,6 +51,7 @@ function AuctionCard({ auction }) {
                     <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
                         End at: {endTime}
                     </Typography>
+                    <CountdownTimer startTime={startTime} endTime={endTime}></CountdownTimer>
                 </CardContent>
                 <CardActions>
                     <Button

@@ -1,9 +1,5 @@
 import * as React from "react";
-import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import CssBaseline from "@mui/material/CssBaseline";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Box from "@mui/material/Box";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -17,10 +13,8 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import { Link, useNavigate } from "react-router-dom";
 import "../../assets/Styles/Landing/Landing.css";
-import Divider from "@mui/material/Divider";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
-import LogoutIcon from "@mui/icons-material/Logout";
 import Layout from "../layout/Layout";
 import AuctionList from "../auction/auctionList";
 
@@ -99,9 +93,10 @@ export default function BackToTop(props) {
             justifyContent: "center",
             alignItems: "center",
             minHeight: "100vh",
+            backgroundSize: "cover",
           }}
         >
-          <div
+          {/* <div
             style={{
               textAlign: "center",
               backgroundColor: "tranparent",
@@ -120,7 +115,7 @@ export default function BackToTop(props) {
             <i style={{ fontSize: "20px", padding: "0", color: "#f1f2ec" }}>
               Hệ thống đấu giá trực tuyến
             </i>
-          </div>
+          </div> */}
         </Box>
         <Box
           sx={{
@@ -141,18 +136,16 @@ export default function BackToTop(props) {
             }}
           >
             <Typography
-              variant="h3"
+              variant="h4"
               sx={{
                 textAlign: "center",
                 fontWeight: "bold",
-                color: "#EEEEEE",
-                mb: 4,
               }}
             >
               Search Auction
             </Typography>
             <Stack sx={{ alignItems: "center" }}>
-              <FormHelperText sx={{ width: `${match ? "300px" : "570px"}` }}>
+              <FormHelperText sx={{ width: `${match ? "300px" : "400px"}` }}>
               </FormHelperText>
               <form onSubmit={handleSubmit}>
                 <Stack
