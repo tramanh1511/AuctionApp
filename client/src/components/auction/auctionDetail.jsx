@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, } from 'react-router-dom';
 import { Box, Typography, Card, Button } from '@mui/material';
+import { format } from "date-fns";
+
 
 function AuctionDetail() {
     const { auctionId } = useParams();
@@ -15,7 +17,6 @@ function AuctionDetail() {
                 const response = await fetch(`http://localhost:3000/api/v1/auctions/${auctionId}`);
                 const data = await response.json();
                 setAuction(data);
-                console.log(data);
             } catch (error) {
                 console.error('Fetch error:', error);
             }
@@ -54,35 +55,45 @@ function AuctionDetail() {
         return <div>Loading...</div>;
     }
 
+    const endTime = new Date(auction.endTime);
+    const now = new Date();
+    const checkTimeOutForBidding = now - endTime;
+
+
     return (
         <>
             <Card sx={{ padding: '2rem', width: '1000px', margin: 'auto', position: "relative", marginTop: "20px" }}>
-                {(userRole === 'admin' || auction.userId === currentUser) && ( // Kiểm tra nếu người dùng là admin hoặc sở hữu phiên đấu giá
-                    <Button sx={{
-                        position: 'absolute',
-                        right: '18px',
-                        color: 'red'
-
-                    }}
+                {(userRole === 'admin' || auction.userId === currentUser) && ( // Kiểm tra nếu người dùng là admin hoặc sở hữu phiên đấu giá và thời gian đấu giá vẫn còn
+                    <Button
+                        sx={{
+                            position: 'absolute',
+                            right: '18px',
+                            color: 'red'
+                        }}
                         aria-label="delete"
-                        onClick={handleDelete}>
+                        onClick={handleDelete}
+                    >
                         Delete this auction
                     </Button>
-                ) || (
-                        <div>
-
-                            <Button variant='contained' sx={{
-                                position: 'absolute',
-                                right: '18px',
-                            }}
-                                aria-label="go-to-bidding-page"
-                                onClick={handleBidding}
-                            >
-                                Bidding this Auction
-                            </Button>
-                        </div>
-                    )}
-
+                )}
+                {(userRole !== 'admin' && auction.userId !== currentUser && checkTimeOutForBidding < 0) && ( // Kiểm tra nếu người dùng không phải là admin hoặc sở hữu phiên đấu giá, và thời gian đấu giá vẫn còn
+                    <Button
+                        variant='contained'
+                        sx={{
+                            position: 'absolute',
+                            right: '18px',
+                        }}
+                        aria-label="go-to-bidding-page"
+                        onClick={handleBidding}
+                    >
+                        Bidding this Auction
+                    </Button>
+                )}
+                {checkTimeOutForBidding >= 0 && (
+                    <Typography variant="body1" color="error" sx={{ position: 'absolute', right: '18px', marginTop: '60px' }}>
+                        Auction has ended
+                    </Typography>
+                )}
                 <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '1rem', marginTop: '10px', textAlign: 'center' }}>
                     Auction Detail
                 </Typography>
@@ -94,16 +105,13 @@ function AuctionDetail() {
                     Description: {auction.description}
                 </Typography>
                 <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                    Status: {auction.status}
+                    Init Price: ${auction.initPrice}
                 </Typography>
                 <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                    Giá khởi điểm: {auction.initPrice}$
+                    Start at: {format(new Date(auction.startTime), 'dd/MM/yyyy hh:mm')}
                 </Typography>
                 <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                    Start at: {auction.startTime}
-                </Typography>
-                <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                    End at: {auction.endTime}
+                    End at: {format(new Date(auction.endTime), 'dd/MM/yyyy hh:mm')}
                 </Typography>
             </Card>
         </>

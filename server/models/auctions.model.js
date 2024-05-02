@@ -70,19 +70,6 @@ async function deleteAuctionById(auctionId) {
     return auction;
 }
 
-async function calculateHoursRemaining(endTime) {
-    const currentTime = new Date();
-    const end = new Date(endTime);
-    const totalMilliseconds = end - currentTime;
-
-    if (totalMilliseconds <= 0) {
-        return 'Đấu giá đã kết thúc';
-    }
-
-    const totalHours = Math.floor(totalMilliseconds / (1000 * 60 * 60));
-
-    return totalHours;
-}
 
 
 module.exports = {
@@ -93,5 +80,4 @@ module.exports = {
     getAuctionByUserId,
     createNewAuction,
     deleteAuctionById,
-    calculateHoursRemaining
 }

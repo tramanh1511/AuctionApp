@@ -2,24 +2,10 @@ import React from 'react';
 import { Card, Button, CardActions, CardContent, Typography, Box, } from '@mui/material';
 import CountdownTimer from './countDownTime';
 import { Link } from 'react-router-dom';
+import { format } from "date-fns";
 
 function AuctionCard({ auction }) {
     const { auctionId, imageUrl, title, status, initPrice, startTime, endTime } = auction;
-    let colorStatus;
-    switch (status) {
-        case 'processing':
-            colorStatus = 'green';
-            break;
-        case 'ended':
-            colorStatus = 'red';
-            break;
-        case 'waiting':
-            colorStatus = 'yellow';
-            break;
-        default:
-    }
-    const currentTime = new Date();
-    // const duration = new Date(Timeend) - currentTime;
     return (
         <Link to={`/${auctionId}`} style={{ color: '#0f1a2a' }}>
             <Card
@@ -39,17 +25,15 @@ function AuctionCard({ auction }) {
                     <Typography variant="body1" sx={{ marginTop: '0.5rem', fontSize: '1.5rem', fontWeight: 'bold' }}>
                         {title}
                     </Typography>
+
                     <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                        Status: <span style={{ color: colorStatus }}>{status}</span>
+                        Init Price: ${initPrice}
                     </Typography>
                     <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                        Init Price: {initPrice}$
+                        Start at: {format(new Date(startTime), 'dd/MM/yyyy hh:mm')}
                     </Typography>
                     <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                        Start at: {startTime}
-                    </Typography>
-                    <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                        End at: {endTime}
+                        End at: {format(new Date(endTime), 'dd/MM/yyyy hh:mm')}
                     </Typography>
                     <CountdownTimer startTime={startTime} endTime={endTime}></CountdownTimer>
                 </CardContent>

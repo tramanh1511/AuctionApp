@@ -15,7 +15,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../assets/Styles/Landing/Landing.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
-import Layout from "../layout/Layout";
 import AuctionList from "../auction/auctionList";
 
 function ScrollTop(props) {
@@ -56,27 +55,14 @@ function ScrollTop(props) {
 export default function BackToTop(props) {
   const match = useMediaQuery("(max-width:800px)");
   const navigate = useNavigate();
-  const signOut = useSignOut();
 
-  const [pkgId, setPkgId] = React.useState("");
+  const [auctionId, setAuctionId] = React.useState("");
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
-  const handleLogout = () => {
-    setAnchorEl(null);
-    signOut();
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search?packagesId=${pkgId}`);
+    navigate(`/${auctionId}`);
   };
 
   const isAuthenticated = useIsAuthenticated();
@@ -96,26 +82,6 @@ export default function BackToTop(props) {
             backgroundSize: "cover",
           }}
         >
-          {/* <div
-            style={{
-              textAlign: "center",
-              backgroundColor: "tranparent",
-              marginTop: "-25px",
-            }}
-          >
-            <Typography
-              sx={{
-                fontSize: "100px",
-                color: "#f1f2ec",
-                padding: "0",
-              }}
-            >
-              Auction
-            </Typography>
-            <i style={{ fontSize: "20px", padding: "0", color: "#f1f2ec" }}>
-              Hệ thống đấu giá trực tuyến
-            </i>
-          </div> */}
         </Box>
         <Box
           sx={{
@@ -161,9 +127,9 @@ export default function BackToTop(props) {
                     required
                     placeholder="Searching..."
                     onChange={(e) => {
-                      setPkgId(e.target.value);
+                      setAuctionId(e.target.value);
                     }}
-                    value={pkgId}
+                    value={auctionId}
                     sx={{
                       width: "100%",
                       ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
