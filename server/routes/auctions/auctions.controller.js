@@ -96,6 +96,7 @@ async function httpDeleteAuctionById(req, res) {
     }
 }
 
+
 module.exports = {
     httpGetAllAuctionFalse,
     httpGetAllAuctionTrue,

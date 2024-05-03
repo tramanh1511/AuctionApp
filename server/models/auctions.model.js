@@ -70,7 +70,10 @@ async function deleteAuctionById(auctionId) {
     return auction;
 }
 
-
+async function searchAuction(auctionTitle) {
+    const regex = new RegExp(auctionTitle, "i");
+    return await Auction.find({ title: regex })
+}
 
 module.exports = {
     getAllAuctionsFalse,
@@ -80,4 +83,5 @@ module.exports = {
     getAuctionByUserId,
     createNewAuction,
     deleteAuctionById,
+    searchAuction,
 }

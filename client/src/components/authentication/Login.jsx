@@ -50,8 +50,6 @@ function Login() {
     alert("Logged out & Token removed");
   };
 
-
-
   return (
     <Grid container justifyContent="center" alignItems="center" sx={{ height: '100%', marginTop: '5rem' }}>
       <Grid item xs={12} sm={8} md={6} lg={4}>

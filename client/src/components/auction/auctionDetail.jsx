@@ -7,6 +7,9 @@ import { format } from "date-fns";
 function AuctionDetail() {
     const { auctionId } = useParams();
     const [auction, setAuction] = useState(null);
+    const [highestPrice, setHighestPrice] = useState('');
+    const [winnerId, setWinnerId] = useState('');
+
     const navigate = useNavigate();
 
     const userRole = localStorage.getItem('role');
@@ -21,7 +24,18 @@ function AuctionDetail() {
                 console.error('Fetch error:', error);
             }
         };
+        const fetchHighestPrice = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/api/v1/bids/highestPrice/${auctionId}`);
+                const data = await response.json();
+                setHighestPrice(data.price);
+                setWinnerId(data.userId);
+            } catch (error) {
+                console.error('Fetch highest price error:', error);
+            }
+        };
 
+        fetchHighestPrice();
         fetchAuction();
     }, [auctionId]);
 
@@ -112,6 +126,9 @@ function AuctionDetail() {
                 </Typography>
                 <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
                     End at: {format(new Date(auction.endTime), 'dd/MM/yyyy hh:mm')}
+                </Typography>
+                <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
+                    Current Winner: ${highestPrice} - UserId: {winnerId}
                 </Typography>
             </Card>
         </>

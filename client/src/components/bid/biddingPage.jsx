@@ -7,10 +7,10 @@ import { Button, Grid, Box, FormHelperText, TextField, Alert } from "@mui/materi
 
 function Bidding() {
     const { auctionId } = useParams();
-    const [auction, setAuction] = useState(null);
+    const [auction, setAuction] = useState('');
     const [bidAmount, setBidAmount] = useState('');
     const [error, setError] = useState('');
-    const [highestPrice, setHighestPrice] = useState(null);
+    const [highestPrice, setHighestPrice] = useState('');
 
     const userId = localStorage.getItem('uid');
     const handleBidding = async () => {
@@ -28,7 +28,7 @@ function Bidding() {
                     price: bidAmount,
                     userId: userId
                 });
-
+                console.log(response);
                 window.alert("Bid successfully!")
                 window.location.reload();
             }
@@ -53,6 +53,7 @@ function Bidding() {
             try {
                 const response = await fetch(`http://localhost:3000/api/v1/bids/highestPrice/${auctionId}`);
                 const data = await response.json();
+                console.log(data)
                 setHighestPrice(data.price);
             } catch (error) {
                 console.error('Fetch highest price error:', error);

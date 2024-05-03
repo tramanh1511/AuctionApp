@@ -1,8 +1,6 @@
-import * as React from "react";
 import Typography from "@mui/material/Typography";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Box from "@mui/material/Box";
-import FormHelperText from "@mui/material/FormHelperText";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Fade from "@mui/material/Fade";
@@ -16,57 +14,47 @@ import "../../assets/Styles/Landing/Landing.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import AuctionList from "../auction/auctionList";
-
-function ScrollTop(props) {
-  const { children, window } = props;
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: true,
-    threshold: 100,
-  });
-
-  const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector(
-      "#back-to-top-anchor"
-    );
-
-    if (anchor) {
-      anchor.scrollIntoView({
-        block: "center",
-      });
-    }
-  };
-
-  return (
-    <Fade in={trigger}>
-      <Box
-        onClick={handleClick}
-        role="presentation"
-        sx={{ position: "fixed", bottom: 16, right: 16 }}
-      >
-        {children}
-      </Box>
-    </Fade>
-  );
-}
-
+import React, { useState } from "react";
 
 
 export default function BackToTop(props) {
   const match = useMediaQuery("(max-width:800px)");
-  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [auctions, setAuctions] = useState([]);
+  const [error, setError] = useState(null);
 
-  const [auctionId, setAuctionId] = React.useState("");
 
 
-
-  const handleSubmit = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    navigate(`/${auctionId}`);
+    try {
+      const response = await fetchAuctionsByTitle(searchQuery);
+      console.log(response);
+      if (response.length === 0) {
+        setError('No results');
+      }
+      else {
+        setAuctions(response);
+      }
+    } catch (error) {
+      console.error("Search error:", error);
+      setError("No results");
+    }
+  }
+  const fetchAuctionsByTitle = async (title) => {
+    const apiUrl = `http://localhost:3000/api/v1/visitors?title=${encodeURIComponent(title)}`;
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
   };
-
-  const isAuthenticated = useIsAuthenticated();
-  const auth = isAuthenticated();
 
   return (
     <React.Fragment>
@@ -111,9 +99,7 @@ export default function BackToTop(props) {
               Search Auction
             </Typography>
             <Stack sx={{ alignItems: "center" }}>
-              <FormHelperText sx={{ width: `${match ? "300px" : "400px"}` }}>
-              </FormHelperText>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSearch}>
                 <Stack
                   spacing={1}
                   direction="row"
@@ -127,15 +113,11 @@ export default function BackToTop(props) {
                     required
                     placeholder="Searching..."
                     onChange={(e) => {
-                      setAuctionId(e.target.value);
+                      setSearchQuery(e.target.value);
                     }}
-                    value={auctionId}
+                    value={searchQuery}
                     sx={{
                       width: "100%",
-                      ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                      {
-                        borderColor: "#222831",
-                      },
                     }}
                   >
                     {" "}
@@ -153,18 +135,15 @@ export default function BackToTop(props) {
                   </Button>
                 </Stack>
               </form>
+              {error && <Typography color="error">{error}</Typography>}
             </Stack>
             <Stack>
-              <AuctionList></AuctionList>
+              <AuctionList />
             </Stack>
           </Paper>
         </Box>
       </Box>
-      <ScrollTop {...props}>
-        <Fab size="small" aria-label="scroll back to top">
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
+
     </React.Fragment>
   );
 }

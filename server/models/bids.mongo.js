@@ -15,7 +15,7 @@ const bidsSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true, 
+        required: true,
     },
     placedAt: {
         type: String,

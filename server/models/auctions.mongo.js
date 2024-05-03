@@ -49,8 +49,10 @@ const auctionsSchema = new mongoose.Schema({
     endTime: {
         type: String,
         required: true,
+    },
+    winner: {
+        type: String,
     }
-
 });
 
 module.exports = mongoose.model('Auction', auctionsSchema);
