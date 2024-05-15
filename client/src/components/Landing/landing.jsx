@@ -1,18 +1,13 @@
 import Typography from "@mui/material/Typography";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Box from "@mui/material/Box";
-import Fab from "@mui/material/Fab";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import Fade from "@mui/material/Fade";
+
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
-import bgimg from "../../assets/images/banner.jpg";
+import backgroundIMG from "../../assets/images/banner.jpg";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
-import { Link, useNavigate } from "react-router-dom";
 import "../../assets/Styles/Landing/Landing.css";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import AuctionList from "../auction/auctionList";
 import React, { useState } from "react";
 
@@ -61,7 +56,7 @@ export default function BackToTop(props) {
       <Box>
         <Box
           sx={{
-            backgroundImage: `url(${bgimg})`,
+            backgroundImage: `url(${backgroundIMG})`,
             backgroundRepeat: "no-repeat",
             display: "flex",
             justifyContent: "center",

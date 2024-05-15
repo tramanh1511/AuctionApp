@@ -127,9 +127,12 @@ function AuctionDetail() {
                 <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
                     End at: {format(new Date(auction.endTime), 'dd/MM/yyyy hh:mm')}
                 </Typography>
-                <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                    Current Winner: ${highestPrice} - UserId: {winnerId}
-                </Typography>
+                {checkTimeOutForBidding >= 0 && (
+                    <Typography variant="h6" sx={{ marginTop: '0.5rem', color: 'green' }}>
+                        Winner: ${highestPrice} - UserId: {winnerId}
+                    </Typography>
+                )}
+
             </Card>
         </>
     );
