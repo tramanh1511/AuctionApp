@@ -24,13 +24,14 @@ async function getAuctionByUserId(userId) {
     return await Auction.find({ userId: userId })
 }
 
-async function approveAuctionById(auctionId) {
+async function updateAuctionById(auctionId, updateData) {
     const auction = await getAuctionById(auctionId);
     if (!auction) {
         return null;
     }
     const now = new Date().toLocaleString();
-    auction.approved = true;
+    auction.request = updateData.request;
+    auction.approved = updateData.approved;
     auction.lastUpdated = now;
     auction.status = "processing"
     auction.save();
@@ -55,6 +56,7 @@ async function createNewAuction(auction) {
         imageUrl: auction.imageUrl,
         initPrice: auction.initPrice,
         approved: false,
+        request: "Create",
         lastUpdated: now,
         status: "waiting",
         startTime: startTime,
@@ -79,7 +81,7 @@ module.exports = {
     getAllAuctionsFalse,
     getAllAuctionsTrue,
     getAuctionById,
-    approveAuctionById,
+    updateAuctionById,
     getAuctionByUserId,
     createNewAuction,
     deleteAuctionById,

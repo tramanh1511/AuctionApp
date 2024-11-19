@@ -5,7 +5,7 @@ const {
     httpGetAuctionById,
     httpGetAuctionByUserId,
     httpAddNewAuction,
-    httpApproveAuctionById,
+    httpUpdateAuctionById,
     httpDeleteAuctionById,
 } = require('./auctions.controller');
 
@@ -17,7 +17,7 @@ auctionsRouter.get('/auctionFalse', httpGetAllAuctionFalse);
 auctionsRouter.get('/:id', httpGetAuctionById);
 auctionsRouter.get('/yourAuction/:id', httpGetAuctionByUserId);
 auctionsRouter.post('/', httpAddNewAuction);
-auctionsRouter.patch('/:id', httpApproveAuctionById);
+auctionsRouter.patch('/:id', httpUpdateAuctionById);
 auctionsRouter.delete('/:id', httpDeleteAuctionById);
 
 module.exports = auctionsRouter;

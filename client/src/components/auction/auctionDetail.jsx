@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, } from 'react-router-dom';
 import { Box, Typography, Card, Button } from '@mui/material';
 import { format } from "date-fns";
+import axios from 'axios';
 
 
 function AuctionDetail() {
@@ -39,23 +40,38 @@ function AuctionDetail() {
         fetchAuction();
     }, [auctionId]);
 
+    // const handleDelete = async (e) => {
+    //     const confirmDelete = window.confirm("Are you sure?");
+
+    //     if (confirmDelete) {
+    //         try {
+    //             const response = await fetch(`http://localhost:3000/api/v1/auctions/${auctionId}`, {
+    //                 method: 'DELETE',
+    //             });
+    //             if (response.ok) {
+    //                 window.alert('Auction deleted successfully');
+    //                 window.history.back();
+    //             } else {
+    //                 // Xử lý trường hợp lỗi khi xóa
+    //                 console.error('Failed to delete auction');
+    //             }
+    //         } catch (error) {
+    //             console.error('Delete error:', error);
+    //         }
+    //     }
+    // }
+
     const handleDelete = async (e) => {
         const confirmDelete = window.confirm("Are you sure?");
 
-        if (confirmDelete) {
-            try {
-                const response = await fetch(`http://localhost:3000/api/v1/auctions/${auctionId}`, {
-                    method: 'DELETE',
-                });
-                if (response.ok) {
-                    window.alert('Auction deleted successfully');
-                    window.history.back();
-                } else {
-                    // Xử lý trường hợp lỗi khi xóa
-                    console.error('Failed to delete auction');
-                }
-            } catch (error) {
-                console.error('Delete error:', error);
+        if(confirmDelete) {
+            const response = await axios.patch(`http://localhost:3000/api/v1/auctions/${auctionId}`, {
+                request: "Delete",
+                approved: false
+            });
+            if(response.status === 200) {
+                window.alert("Deletion request submitted for Admin review.");
+                window.location.reload();
             }
         }
     }
