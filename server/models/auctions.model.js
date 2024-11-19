@@ -24,7 +24,7 @@ async function getAuctionByUserId(userId) {
     return await Auction.find({ userId: userId })
 }
 
-async function updateAuctionReqById(auctionId, updateData) {
+async function approveAuctionReqById(auctionId, updateData) {
     const auction = await getAuctionById(auctionId);
     if (!auction) {
         return null;
@@ -98,7 +98,7 @@ module.exports = {
     getAllAuctionsFalse,
     getAllAuctionsTrue,
     getAuctionById,
-    updateAuctionReqById,
+    approveAuctionReqById,
     getAuctionByUserId,
     createNewAuction,
     deleteAuctionById,

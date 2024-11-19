@@ -34,13 +34,10 @@ const auctionsSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
-<<<<<<< HEAD
     request: {
         type: String,
         required: true,
     },
-=======
->>>>>>> new-origin/main
     lastUpdated: {
         type: String,
         required: true,
@@ -59,8 +56,6 @@ const auctionsSchema = new mongoose.Schema({
     },
     winner: {
         type: String,
-<<<<<<< HEAD
-=======
     },
     currentUsers : {
         type: Array,
@@ -75,7 +70,6 @@ const auctionsSchema = new mongoose.Schema({
     },
     highestPrice : {
         type: Number,
->>>>>>> new-origin/main
     }
 });
 

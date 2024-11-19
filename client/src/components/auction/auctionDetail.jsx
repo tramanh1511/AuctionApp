@@ -4,6 +4,73 @@ import { Box, Typography, Card, Button } from '@mui/material';
 import { format } from "date-fns";
 import axios from 'axios';
 
+const styles = {
+    title: {
+        fontWeight: 'bold',
+        width: '200px', // Fixed width for labels
+    },
+    content: {
+        flex: 1, // Take up the remaining space
+        marginLeft: '10px',  // Adds space between label and content
+    },
+    initPrice: {
+        fontSize: '2.4rem',
+        fontWeight: '900',
+        color: '#d32f2f',
+    },
+    highestPrice: {
+        fontSize: '2.4rem',
+        fontWeight: '900',
+        color: '#388e3c',  // Green color for highest price
+    },
+    card: {
+        padding: '2rem',
+        width: '1000px',
+        margin: 'auto',
+        position: 'relative',
+        marginTop: '20px',
+        borderRadius: '16px',
+        boxShadow: 3,
+    },
+    deleteButton: {
+        position: 'absolute',
+        right: '18px',
+        color: 'red',
+        fontWeight: 'bold',
+    },
+    biddingButton: {
+        position: 'absolute',
+        right: '18px',
+        fontWeight: 'bold',
+    },
+    registerButton: {
+        position: 'absolute',
+        right: '18px',
+        fontWeight: 'bold',
+        backgroundColor: '#1976d2',
+        color: 'white',
+    },
+    endedText: {
+        position: 'absolute',
+        right: '18px',
+        marginTop: '60px',
+        fontWeight: 'bold',
+        color: 'error',
+    },
+    image: {
+        borderRadius: '8px',
+        boxShadow: 2,
+        width: '60%',
+    },
+    row: {
+        display: 'flex',
+        alignItems: 'center',  // Aligns the label and content vertically centered
+        marginBottom: '0.5rem',
+    },
+    rowContent: {
+        marginLeft: '10px',  // Adds space between label and content
+    },
+};
 
 function AuctionDetail() {
     const { auctionId } = useParams();

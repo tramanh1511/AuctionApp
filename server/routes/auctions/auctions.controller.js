@@ -58,7 +58,7 @@ async function httpApproveAuctionReqById(req, res) {
     const updateData = req.body;
 
     try {
-        const auction = await updateAuctionById(auctionId, updateData);
+        const auction = await approveAuctionReqById(auctionId, updateData);
 
         if (!auction) {
             return res.status(400).json({
