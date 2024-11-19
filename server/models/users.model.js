@@ -32,7 +32,11 @@ async function editUser(user) {
     if (!oldUser) {
         return null;
     }
+<<<<<<< HEAD
     console.log("HERE");
+=======
+    // console.log("HERE");
+>>>>>>> new-origin/main
     oldUser.name = user.name;
     oldUser.email = user.email;
     oldUser.phone = user.phone;

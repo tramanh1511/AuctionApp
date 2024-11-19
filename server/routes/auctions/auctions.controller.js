@@ -1,11 +1,12 @@
 const {
     getAuctionById,
-    updateAuctionById,
+    approveAuctionReqById,
     getAuctionByUserId,
     createNewAuction,
     deleteAuctionById,
     getAllAuctionsFalse,
     getAllAuctionsTrue,
+    updateAuctionById
 } = require('../../models/auctions.model');
 
 const {
@@ -52,7 +53,7 @@ async function httpGetAuctionByUserId(req, res) {
     return res.status(200).json(auction);
 }
 
-async function httpUpdateAuctionById(req, res) {
+async function httpApproveAuctionReqById(req, res) {
     const auctionId = req.params.id;
     const updateData = req.body;
 
@@ -72,39 +73,47 @@ async function httpUpdateAuctionById(req, res) {
             error: "Internal server error"
         });
     }
-
 }
+
+async function httpUpdateAuctionById(req, res) {
+    const auction = req.body; // Lấy dữ liệu từ frontend
+    auction.id =req.params.id;
+
+    try {
+        const updatedAuction = await updateAuctionById(auction)        
+        return res.status(200).json(updatedAuction);
+    } catch (err) {
+        console("Error on auction controller update");
+        return res.status(400).json({
+            error: err.message,
+        });
+    }
+}
+
 
 async function httpAddNewAuction(req, res) {
     const auction = req.body;
 
     try {
-        const createdAuction = await createNewAuction(auction)
+        const createdAuction = await createNewAuction(auction);
+        return res.status(201).json(createdAuction);
     } catch (err) {
         console.log(err);
-        return res.status(500).json({
-            error: err.message,
-        });
+        return res.status(500).json({ error: err.message });
     }
-
-    return res.status(201).json(auction);
 }
 
 async function httpDeleteAuctionById(req, res) {
     const auctionId = req.params.id;
-
     const deletingAuction = await getAuctionById(auctionId);
 
     if (deletingAuction) {
-        const auction = await deleteAuctionById(auctionId);
-        return res.status(200).json(auction);
+        await deleteAuctionById(auctionId);
+        return res.status(200).json({ message: 'Auction deleted successfully' });
     } else {
-        return res.status(400).json({
-            error: "Backend bảo không xóa được!"
-        })
+        return res.status(400).json({ error: "Backend bảo không xóa được!" });
     }
 }
-
 
 module.exports = {
     httpGetAllAuctionFalse,
@@ -112,6 +121,7 @@ module.exports = {
     httpGetAuctionById,
     httpGetAuctionByUserId,
     httpAddNewAuction,
-    httpUpdateAuctionById,
+    httpApproveAuctionReqById,
     httpDeleteAuctionById,
-}
+    httpUpdateAuctionById,
+};

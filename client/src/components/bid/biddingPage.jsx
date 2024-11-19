@@ -43,7 +43,7 @@ function Bidding() {
             try {
                 const response = await fetch(`http://localhost:3000/api/v1/auctions/${auctionId}`);
                 const data = await response.json();
-                setAuction(data);
+                setAuction(data);pat
                 console.log(data);
             } catch (error) {
                 console.error('Fetch error:', error);

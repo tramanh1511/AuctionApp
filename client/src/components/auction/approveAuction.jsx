@@ -39,6 +39,7 @@ function ApproveAuctions() {
                 if (response.status === 200) {
                     fetchUnapprovedAuctions();
                 }
+
             }
         } catch (error) {
             console.error('Approval error:', error);

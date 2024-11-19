@@ -24,7 +24,7 @@ async function getAuctionByUserId(userId) {
     return await Auction.find({ userId: userId })
 }
 
-async function updateAuctionById(auctionId, updateData) {
+async function updateAuctionReqById(auctionId, updateData) {
     const auction = await getAuctionById(auctionId);
     if (!auction) {
         return null;
@@ -37,6 +37,22 @@ async function updateAuctionById(auctionId, updateData) {
     auction.save();
     return auction;
 }
+
+async function updateAuctionById(auction) {
+    // console.log("có vào model ko bvaya");
+    const now = new Date().toLocaleString(); // Cập nhật thời gian hiện tại
+    const auction_ = await getAuctionById(auction.id);
+    if (!auction_) {
+        return null;
+    }
+    // auction_.set(auctionData);    
+    auction_.currentUsers = auction.currentUsers;
+    auction_.lastUpdated = now;
+
+    auction_.save();
+    return auction_; // Trả về phiên đấu giá đã cập nhật
+}
+
 
 async function saveAuction(auction) {
     await Auction.create(auction);
@@ -57,10 +73,11 @@ async function createNewAuction(auction) {
         initPrice: auction.initPrice,
         approved: false,
         request: "Create",
-        lastUpdated: now,
-        status: "waiting",
-        startTime: startTime,
-        endTime: endTime
+        deposit: auction.deposit,
+        stepPrice: auction.stepPrice,
+        highestPrice: auction.highestPrice,
+        currentUsers: auction.currentUsers,
+        winner: auction.winner
     })
     await saveAuction(newAuction);
     console.log(newAuction)
@@ -81,9 +98,10 @@ module.exports = {
     getAllAuctionsFalse,
     getAllAuctionsTrue,
     getAuctionById,
-    updateAuctionById,
+    updateAuctionReqById,
     getAuctionByUserId,
     createNewAuction,
     deleteAuctionById,
     searchAuction,
+    updateAuctionById,
 }

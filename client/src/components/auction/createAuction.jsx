@@ -15,6 +15,8 @@ export default function createAuction() {
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [error, setError] = useState("");
+    const [deposit, setDeposit] = useState("");
+    const [stepPrice, setStepPrice] = useState("");
 
     const isValidUrl = (url) => {
         try {
@@ -28,7 +30,7 @@ export default function createAuction() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!category || !title || !description || !initPrice || !startTime || !endTime) {
+        if (!category || !title || !description || !initPrice || !startTime || !endTime || !stepPrice || !deposit) {
             setError("Please fill in all required fields.");
             return;
         }
@@ -37,7 +39,7 @@ export default function createAuction() {
             setError("Please enter a valid URL for the image.");
             return;
         }
-        axios.post("http://localhost:3000/api/v1/auctions", { userId, category, title, description, imageUrl, initPrice, startTime, endTime })
+        axios.post("http://localhost:3000/api/v1/auctions", { userId, category, title, description, imageUrl, initPrice, stepPrice, deposit, startTime, endTime })
             .then((result) => {
                 if (result.status === 201) {
                     window.alert("Create Success");
@@ -99,6 +101,29 @@ export default function createAuction() {
                                         variant="outlined"
                                     />
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Deposit"
+                                        type="number"
+                                        fullWidth
+                                        value={deposit}
+                                        onChange={(e) => setDeposit(e.target.value)}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Step Price"
+                                        type="number"
+                                        fullWidth
+                                        value={stepPrice}
+                                        onChange={(e) => setStepPrice(e.target.value)}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+
+                                
+
                                 <Grid item xs={12}>
                                     <TextField
                                         label="imageUrl"

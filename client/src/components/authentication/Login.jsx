@@ -25,24 +25,58 @@ function Login() {
         password: password,
       }),
     };
-    fetch("http://localhost:3000/api/v1/login", requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          setError("Invalid email or password");
-          throw Error("Invalid credentials")
-        }
-        const token = data.token
-        console.log(data)
-        localStorage.setItem("jwtToken", token);
-        localStorage.setItem("uid", data.uid);
-        localStorage.setItem("role", data.userRole);
+    // const response = fetch("http://localhost:3000/api/v1/login", requestOptions)
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     if (data.error) {
+    //       setError("Invalid email or password");
+    //       throw Error("Invalid credentials")
+    //     }
+    //     const token = data.token
+    //     console.log(data)
+    //     localStorage.setItem("jwtToken", token);
+    //     localStorage.setItem("uid", data.uid);
+    //     localStorage.setItem("role", data.userRole);
 
+    //     navigate('/');
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   });
+
+    fetch("http://localhost:3000/api/v1/login", requestOptions)
+    .then(async (response) => {
+        // Kiểm tra nếu response không thành công
+        if (!response.ok) {
+            const errorMessage = await response.text(); // Lấy thông tin lỗi từ server
+            setError("Invalid email or password");
+            throw new Error(errorMessage || "Invalid credentials");
+        }
+
+        // Parse JSON từ response
+        const data = await response.json();
+
+        // Kiểm tra nếu có lỗi trong data
+        if (data.error) {
+            setError("Invalid email or password");
+            throw new Error("Invalid credentials");
+        }
+
+        // Lưu thông tin người dùng vào localStorage
+        const { token, uid, userRole } = data;
+        localStorage.setItem("jwtToken", token);
+        localStorage.setItem("uid", uid);
+        localStorage.setItem("role", userRole);
+
+        // Điều hướng đến trang chính
+        console.log("Login successful, user data:", data);
         navigate('/');
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    })
+    .catch((error) => {
+        // Xử lý lỗi chung
+        console.error("Error during login:", error.message);
+    });
+
   }
   const handleLogout = () => {
     localStorage.removeItem("accessToken");

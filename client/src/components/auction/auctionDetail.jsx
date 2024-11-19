@@ -9,57 +9,47 @@ function AuctionDetail() {
     const { auctionId } = useParams();
     const [auction, setAuction] = useState(null);
     const [highestPrice, setHighestPrice] = useState('');
-    const [winnerId, setWinnerId] = useState('');
+    const [userData, setUserData] = useState(null);
+    const [isRegistered, setIsRegistered] = useState(false);
+    const [registerUser, setRegisterUser] = useState('');
 
     const navigate = useNavigate();
-
     const userRole = localStorage.getItem('role');
     const currentUser = localStorage.getItem('uid');
+
     useEffect(() => {
         const fetchAuction = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/api/v1/auctions/${auctionId}`);
                 const data = await response.json();
                 setAuction(data);
+
+                if(data.currentUsers.includes(currentUser)) {
+                    setIsRegistered(true);
+                }
+
+                const userResponse = await fetch(`http://localhost:3000/api/v1/users/${data.userId}`);
+                const userData = await userResponse.json();
+                setUserData(userData);
+
             } catch (error) {
-                console.error('Fetch error:', error);
+                console.error('use effect Fetch Auction error:', error);
             }
         };
+
         const fetchHighestPrice = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/api/v1/bids/highestPrice/${auctionId}`);
                 const data = await response.json();
                 setHighestPrice(data.price);
-                setWinnerId(data.userId);
             } catch (error) {
-                console.error('Fetch highest price error:', error);
+                console.error('use effect Fetch highest price error:', error);
             }
         };
-
-        fetchHighestPrice();
         fetchAuction();
-    }, [auctionId]);
-
-    // const handleDelete = async (e) => {
-    //     const confirmDelete = window.confirm("Are you sure?");
-
-    //     if (confirmDelete) {
-    //         try {
-    //             const response = await fetch(`http://localhost:3000/api/v1/auctions/${auctionId}`, {
-    //                 method: 'DELETE',
-    //             });
-    //             if (response.ok) {
-    //                 window.alert('Auction deleted successfully');
-    //                 window.history.back();
-    //             } else {
-    //                 // Xử lý trường hợp lỗi khi xóa
-    //                 console.error('Failed to delete auction');
-    //             }
-    //         } catch (error) {
-    //             console.error('Delete error:', error);
-    //         }
-    //     }
-    // }
+        fetchHighestPrice();
+        // handleRegister();
+    }, [auctionId, currentUser]);
 
     const handleDelete = async (e) => {
         const confirmDelete = window.confirm("Are you sure?");
@@ -76,12 +66,60 @@ function AuctionDetail() {
         }
     }
 
+    const handleRegister = async () => {      
+        // Check if auction data is available
+        if (!auction) {
+            console.error('Auction data is not available.');
+            return; // Exit if auction is null
+        }
+        // Check if the user is already registered
+        if (auction.currentUsers.includes(currentUser)) {
+            console.log("User is already registered");
+            setIsRegistered(true);
+            return; // Do nothing if already registered
+        }
+        try {
+            // Thêm currentUser mới vào danh sách currentUsers
+            const updatedCurrentUsers = [...auction.currentUsers, currentUser];
+        
+            // Cập nhật toàn bộ auction, không chỉ mỗi currentUsers
+            const updatedAuctionData = {
+                ...auction, // Giữ lại các trường dữ liệu hiện tại của auction
+                currentUsers: updatedCurrentUsers, // Cập nhật currentUsers
+            };
+
+            // const response = await axios.patch(`http://localhost:3000/api/v1/auctions/update/${auctionId}`, updatedAuctionData);
+             console.log("up", JSON.stringify(updatedAuctionData));
+
+            const response = await fetch(`http://localhost:3000/api/v1/auctions/update/${auctionId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedAuctionData)
+            });
+    
+            if (response.ok) {
+                alert('Đăng ký thành công!');
+                setIsRegistered(true);
+                setAuction(updatedAuctionData); // Cập nhật lại auction với dữ liệu mới
+                console.log("Auction registered successfully:", updatedAuctionData);
+            } else {
+                alert('Đăng ký không thành công. Vui lòng thử lại sau.');
+                console.error(`Failed to register to auction. Status: ${response.status}`);
+            }
+            
+            console.log("Auction register in handle", auction.currentUsers);
+        } catch (error) {
+            console.error('Registration error in handle:', error);
+        }
+    }; 
+
     const handleBidding = () => {
-        navigate(`/biddingPage/${auctionId}`)
-    }
+        navigate(`/biddingPage/${auctionId}`);
+    };
 
-
-    if (!auction) {
+    if (!auction || !userData) {
         return <div>Loading...</div>;
     }
 
@@ -89,38 +127,20 @@ function AuctionDetail() {
     const now = new Date();
     const checkTimeOutForBidding = now - endTime;
 
-
     return (
         <>
-            <Card sx={{ padding: '2rem', width: '1000px', margin: 'auto', position: "relative", marginTop: "20px" }}>
-                {(userRole === 'admin' || auction.userId === currentUser) && ( // Kiểm tra nếu người dùng là admin hoặc sở hữu phiên đấu giá và thời gian đấu giá vẫn còn
+            <Card sx={styles.card}>
+                {(userRole === 'admin' || auction.userId === currentUser) && (
                     <Button
-                        sx={{
-                            position: 'absolute',
-                            right: '18px',
-                            color: 'red'
-                        }}
+                        sx={styles.deleteButton}
                         aria-label="delete"
                         onClick={handleDelete}
                     >
                         Delete this auction
                     </Button>
                 )}
-                {(userRole !== 'admin' && auction.userId !== currentUser && checkTimeOutForBidding < 0) && ( // Kiểm tra nếu người dùng không phải là admin hoặc sở hữu phiên đấu giá, và thời gian đấu giá vẫn còn
-                    <Button
-                        variant='contained'
-                        sx={{
-                            position: 'absolute',
-                            right: '18px',
-                        }}
-                        aria-label="go-to-bidding-page"
-                        onClick={handleBidding}
-                    >
-                        Bidding this Auction
-                    </Button>
-                )}
                 {checkTimeOutForBidding >= 0 && (
-                    <Typography variant="body1" color="error" sx={{ position: 'absolute', right: '18px', marginTop: '60px' }}>
+                    <Typography variant="body1" sx={styles.endedText}>
                         Auction has ended
                     </Typography>
                 )}
@@ -130,25 +150,90 @@ function AuctionDetail() {
                 <Typography variant="body1" sx={{ marginTop: '0.5rem', fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                     {auction.title}
                 </Typography>
-                <Box component="img" width="60%" src={auction.imageUrl} />
-                <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                    Description: {auction.description}
-                </Typography>
-                <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                    Init Price: ${auction.initPrice}
-                </Typography>
-                <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                    Start at: {format(new Date(auction.startTime), 'dd/MM/yyyy hh:mm')}
-                </Typography>
-                <Typography variant="body1" sx={{ marginTop: '0.5rem' }}>
-                    End at: {format(new Date(auction.endTime), 'dd/MM/yyyy hh:mm')}
-                </Typography>
-                {checkTimeOutForBidding >= 0 && (
-                    <Typography variant="h6" sx={{ marginTop: '0.5rem', color: 'green' }}>
-                        Winner: ${highestPrice} - UserId: {winnerId}
-                    </Typography>
+                <Box component="img" src={auction.imageUrl} sx={styles.image} />
+
+                {/* Start of Row for each section */}
+                <Box sx={styles.row}>
+                    <Typography variant="body1" sx={styles.title}>Init price:</Typography>
+                    <Typography variant="body1" sx={{ ...styles.content, ...styles.initPrice }}>${auction.initPrice}</Typography>
+                </Box>
+
+                {/* Display the highest price just after initPrice */}
+                {highestPrice && (
+                    <Box sx={styles.row}>
+                        <Typography variant="body1" sx={styles.title}>Highest Price:</Typography>
+                        <Typography variant="body1" sx={{ ...styles.content, ...styles.highestPrice }}>${highestPrice}</Typography>
+                    </Box>
                 )}
 
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>AuctionID:</Typography>
+                <Typography variant="body1" sx={styles.content}>{auction.auctionId}</Typography>
+            </Box>
+
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>Description:</Typography>
+                <Typography variant="body1" sx={styles.content}>{auction.description}</Typography>
+            </Box>
+
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>Start at:</Typography>
+                <Typography variant="body1" sx={styles.content}>{format(new Date(auction.startTime), 'dd/MM/yyyy hh:mm')}</Typography>
+            </Box>
+
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>End at:</Typography>
+                <Typography variant="body1" sx={styles.content}>{format(new Date(auction.endTime), 'dd/MM/yyyy hh:mm')}</Typography>
+            </Box>
+
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>Registration fee:</Typography>
+                <Typography variant="body1" sx={styles.content}>${auction.deposit}</Typography>
+            </Box>
+
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>Step Price:</Typography>
+                <Typography variant="body1" sx={styles.content}>${auction.stepPrice}</Typography>
+            </Box>
+
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>Auction Method:</Typography>
+                <Typography variant="body1" sx={styles.content}>Incremental and continuous bidding</Typography>
+            </Box>
+
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>Owner:</Typography>
+                <Typography variant="body1" sx={styles.content}>{userData.name}</Typography>
+            </Box>
+
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>Viewing Time:</Typography>
+                <Typography variant="body1" sx={styles.content}>{auction.viewingTime || 'To be decided'}</Typography>
+            </Box>
+
+            <Box sx={styles.row}>
+                <Typography variant="body1" sx={styles.title}>Viewing address:</Typography>
+                <Typography variant="body1" sx={styles.content}>{auction.viewingAddress || 'To be decided'}</Typography>
+            </Box>
+            {(checkTimeOutForBidding < 0 && !isRegistered && userRole !== 'admin' && auction.userId !== currentUser) && (
+                    <Button
+                        variant="contained"
+                        sx={styles.registerButton}
+                        onClick={handleRegister}
+                    >
+                        Register to this Auction
+                    </Button>
+                )}
+
+                {checkTimeOutForBidding < 0 && isRegistered && (
+                    <Button
+                        variant="contained"
+                        sx={styles.biddingButton}
+                        onClick={handleBidding}
+                    >
+                        Bidding this Auction
+                    </Button>
+                )}
             </Card>
         </>
     );
