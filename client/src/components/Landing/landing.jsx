@@ -15,18 +15,23 @@ import React, { useState } from "react";
 export default function BackToTop(props) {
   const match = useMediaQuery("(max-width:800px)");
   const [searchQuery, setSearchQuery] = useState("");
-  const [auctions, setAuctions] = useState([]);
+  const [auctions, setAuctions] = useState(undefined);
   const [error, setError] = useState(null);
 
 
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    if (!searchQuery.trim()) {
+        setError('Please enter a search query.');
+        return;
+    }
     try {
       const response = await fetchAuctionsByTitle(searchQuery);
       console.log(response);
       if (response.length === 0) {
         setError('No results');
+        setAuctions(null);
       }
       else {
         setAuctions(response);
@@ -133,7 +138,7 @@ export default function BackToTop(props) {
               {error && <Typography color="error">{error}</Typography>}
             </Stack>
             <Stack>
-              <AuctionList />
+            {auctions !== undefined ? <AuctionList auctions={auctions} /> : <AuctionList />}
             </Stack>
           </Paper>
         </Box>

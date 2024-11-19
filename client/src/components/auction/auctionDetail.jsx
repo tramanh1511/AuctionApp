@@ -128,7 +128,7 @@ function AuctionDetail() {
             });
             if(response.status === 200) {
                 window.alert("Deletion request submitted for Admin review.");
-                window.location.reload();
+                window.history.back()
             }
         }
     }
